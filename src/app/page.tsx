@@ -28,3 +28,20 @@ export default function Home() {
     </>
   );
 }
+
+// GSA Services Page Placeholder
+export function ServicesPage() {
+  return (
+    <main>
+      {/* Navbar (reuse existing component) */}
+      {/* Hero Section with background image */}
+      {/* IT Outsourcing Section with functional carousel */}
+      {/* Best Solution Section with 4 cards */}
+      {/* Software Skills row (all logos from public/services/Logo software) */}
+      {/* Professional Services grid (cards with Buy Now to phone number) */}
+      {/* Contact Us section */}
+      {/* Footer (reuse existing component) */}
+      <div className="text-center py-20 text-2xl font-bold text-gray-400">GSA Services Page Coming Soon...</div>
+    </main>
+  );
+}
