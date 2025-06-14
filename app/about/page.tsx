@@ -26,7 +26,7 @@ const AboutUs = () => {
                 About Us
               </h1>
               <p className="text-white/90 text-xl font-medium">
-                GSA's Information
+                GSA&apos;s Information
               </p>
             </motion.div>
           </div>
@@ -290,7 +290,7 @@ const AboutUs = () => {
               transition={{ duration: 0.6 }}
             >
               <h2 className="text-4xl font-bold text-gray-800 mb-6">
-                What's we can do for you?
+                What&apos;s we can do for you?
               </h2>
               <p className="text-gray-600 mb-6 leading-relaxed">
                 We offer exceptional expertise across a range of key services tailored to your needs. Our team of professionals is committed to delivering outstanding results that help you achieve your goals and stay ahead in a competitive landscape. With a focus on quality and customer satisfaction, we aim to exceed your expectations and provide results that truly make a difference.
