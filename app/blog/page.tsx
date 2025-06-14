@@ -121,7 +121,7 @@ export default function BlogPage() {
             </div>
             
             {/* Right side robot illustration */}
-            <div className="w-96 h-96 md:w-[28rem] md:h-[28rem] relative flex-shrink-0">
+            <div className="w-96 h-96 md:w-[400px] md:h-[400px] relative flex-shrink-0">
               <Image 
                 src="/Blog/Blog/Elemen Design Website Company GSA (54) 3.svg" 
                 alt="GSA Robot with Book" 

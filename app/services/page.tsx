@@ -229,26 +229,27 @@ export default function ServicesPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative w-full h-[550px] bg-gradient-to-br from-purple-500 via-blue-500 to-green-500 flex items-center justify-center overflow-hidden">
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-7xl mx-auto px-6 py-16">
-          <div className="text-white max-w-2xl">
-            <div className="text-sm mb-3 opacity-90 font-medium">Home → Services</div>
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">GSA Services</h1>
-            <p className="text-xl md:text-2xl mb-8 opacity-95 leading-relaxed">Professional IT Services for Your Digital Success</p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <button className="bg-white text-blue-600 font-semibold px-8 py-4 rounded-2xl hover:bg-gray-100 transition-all duration-200">Explore Services</button>
-              <button className="border-2 border-white text-white font-semibold px-8 py-4 rounded-2xl hover:bg-white hover:text-blue-600 transition-all duration-200">Contact Us</button>
+      <section className="relative w-full bg-gradient-to-r from-purple-500 via-blue-500 to-teal-400 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 pt-24 pb-16 md:pt-32 md:pb-20">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            {/* Left side content */}
+            <div className="text-center md:text-left text-white max-w-xl mb-8 md:mb-0">
+              <div className="text-sm mb-4 opacity-90">Home • Services</div>
+              <h1 className="text-5xl md:text-6xl font-bold mb-4">GSA Services</h1>
+              <p className="text-xl opacity-90">Services we offer for your Project</p>
+            </div>
+            
+            {/* Right side robot illustration */}
+            <div className="w-96 h-96 md:w-[400px] md:h-[400px] relative flex-shrink-0">
+              <Image 
+                src="/Home/Elemen Design Website Company GSA (44) 1.svg" 
+                alt="GSA Robot" 
+                fill 
+                className="object-contain" 
+                priority
+              />
             </div>
           </div>
-          <div className="hidden md:block w-[400px] h-[400px] relative">
-            <Image src="/services/Elemen Design Website Company GSA (46) 3.svg" alt="Robot" fill className="object-contain" />
-          </div>
-        </div>
-
-        {/* Background decoration */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-1/2 -left-1/2 w-full h-full bg-white/10 rounded-full blur-3xl"></div>
         </div>
       </section>
 

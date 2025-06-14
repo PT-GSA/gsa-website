@@ -144,16 +144,18 @@ export default function ServicesPage() {
     <div className="bg-white min-h-screen flex flex-col">
       <Navbar />
       {/* Hero Section */}
-      <section className="relative w-full h-[420px] flex items-center justify-center overflow-hidden">
+      <section className="relative w-full bg-gradient-to-r from-purple-500 via-blue-500 to-teal-400 overflow-hidden">
         <Image src="/services/Elemen Design Website Company GSA (46).png" alt="GSA Services Hero" fill priority className="object-cover object-top w-full h-full absolute z-0" />
-        <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full max-w-7xl mx-auto px-6 py-12">
-          <div className="text-white max-w-xl">
-            <div className="text-sm mb-2 opacity-80">Home &gt; Services</div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-2">GSA Services</h1>
-            <div className="text-lg mb-4 opacity-90">Services we offer for your Project</div>
-          </div>
-          <div className="hidden md:block w-[320px] h-[320px] relative">
-            <Image src="/Home/Elemen Design Website Company GSA (44) 1.svg" alt="Robot" fill className="object-contain" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 pt-24 pb-16 md:pt-32 md:pb-20">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="text-center md:text-left text-white max-w-xl mb-8 md:mb-0">
+              <div className="text-sm mb-4 opacity-90">Home › Services</div>
+              <h1 className="text-5xl md:text-6xl font-bold mb-4">GSA Services</h1>
+              <p className="text-xl opacity-90">Services we offer for your Project</p>
+            </div>
+            <div className="w-96 h-96 md:w-[400px] md:h-[400px] relative flex-shrink-0">
+              <Image src="/Home/Elemen Design Website Company GSA (44) 1.svg" alt="Robot" fill className="object-contain" />
+            </div>
           </div>
         </div>
       </section>
