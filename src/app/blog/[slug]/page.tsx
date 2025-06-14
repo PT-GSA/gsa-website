@@ -6,60 +6,60 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
-import { BLOCKS, MARKS, INLINES } from '@contentful/rich-text-types';
+import { BLOCKS, MARKS, INLINES, Block, Inline } from '@contentful/rich-text-types';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from '../../../../lib/contentful';
 
 const renderOptions = {
   renderMark: {
-    [MARKS.BOLD]: (text: any) => <strong className="font-bold">{text}</strong>,
-    [MARKS.ITALIC]: (text: any) => <em className="italic">{text}</em>,
-    [MARKS.CODE]: (text: any) => (
+    [MARKS.BOLD]: (text: React.ReactNode) => <strong className="font-bold">{text}</strong>,
+    [MARKS.ITALIC]: (text: React.ReactNode) => <em className="italic">{text}</em>,
+    [MARKS.CODE]: (text: React.ReactNode) => (
       <code className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm font-mono">
         {text}
       </code>
     ),
   },
   renderNode: {
-    [BLOCKS.PARAGRAPH]: (node: any, children: any) => (
+    [BLOCKS.PARAGRAPH]: (node: Block | Inline, children: React.ReactNode) => (
       <p className="mb-6 text-gray-700 leading-relaxed text-lg">{children}</p>
     ),
-    [BLOCKS.HEADING_1]: (node: any, children: any) => (
+    [BLOCKS.HEADING_1]: (node: Block | Inline, children: React.ReactNode) => (
       <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-8 mt-12">
         {children}
       </h1>
     ),
-    [BLOCKS.HEADING_2]: (node: any, children: any) => (
+    [BLOCKS.HEADING_2]: (node: Block | Inline, children: React.ReactNode) => (
       <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 mt-10">
         {children}
       </h2>
     ),
-    [BLOCKS.HEADING_3]: (node: any, children: any) => (
+    [BLOCKS.HEADING_3]: (node: Block | Inline, children: React.ReactNode) => (
       <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 mt-8">
         {children}
       </h3>
     ),
-    [BLOCKS.UL_LIST]: (node: any, children: any) => (
+    [BLOCKS.UL_LIST]: (node: Block | Inline, children: React.ReactNode) => (
       <ul className="list-disc list-inside mb-6 space-y-2 text-gray-700 ml-4">
         {children}
       </ul>
     ),
-    [BLOCKS.OL_LIST]: (node: any, children: any) => (
+    [BLOCKS.OL_LIST]: (node: Block | Inline, children: React.ReactNode) => (
       <ol className="list-decimal list-inside mb-6 space-y-2 text-gray-700 ml-4">
         {children}
       </ol>
     ),
-    [BLOCKS.LIST_ITEM]: (node: any, children: any) => (
+    [BLOCKS.LIST_ITEM]: (node: Block | Inline, children: React.ReactNode) => (
       <li className="text-lg">{children}</li>
     ),
-    [BLOCKS.QUOTE]: (node: any, children: any) => (
+    [BLOCKS.QUOTE]: (node: Block | Inline, children: React.ReactNode) => (
       <blockquote className="border-l-4 border-blue-600 pl-6 py-4 mb-6 bg-blue-50 rounded-r-lg">
         <div className="text-lg italic text-gray-800">{children}</div>
       </blockquote>
     ),
     [BLOCKS.HR]: () => <hr className="my-8 border-gray-300" />,
-    [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
+    [BLOCKS.EMBEDDED_ASSET]: (node: Block | Inline) => {
       const { file, title } = node.data.target.fields;
       return (
         <div className="my-8">
@@ -73,7 +73,7 @@ const renderOptions = {
         </div>
       );
     },
-    [INLINES.HYPERLINK]: (node: any, children: any) => (
+    [INLINES.HYPERLINK]: (node: Block | Inline, children: React.ReactNode) => (
       <a
         href={node.data.uri}
         target="_blank"
@@ -137,7 +137,7 @@ export default function BlogPostPage() {
     });
   };
 
-  const getReadTime = (content: any) => {
+  const getReadTime = (content: unknown) => {
     const textContent = JSON.stringify(content);
     const wordCount = textContent.split(' ').length;
     return Math.ceil(wordCount / 200);
