@@ -17,7 +17,7 @@ const CTA = () => {
           >
             <div className="relative h-[400px] w-full">
               <Image 
-                src="/services/Elemen Design Website Company GSA (46) 3.svg" 
+                src="/Home/Elemen Design Website Company GSA (44) 1.svg" 
                 alt="Digital Business" 
                 fill 
                 className="object-contain" 
