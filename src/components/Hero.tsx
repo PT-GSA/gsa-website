@@ -12,19 +12,36 @@ const translations = {
     welcomeTo: "Welcome to the",
     digitalPartner: "Digital Strategic Partner",
     tellUsWhatYouNeed: "Tell us what you need",
-    searchPlaceholder: "AI Intelligence"
+    searchPlaceholder: "Ask me anything about GSA...",
+    aiTyping: "AI is typing...",
+    tryAgain: "Try again",
+    clearChat: "Clear Chat"
   },
   id: {
     companyName: "Gemerlang Sejahtera Abadi",
     welcomeTo: "Selamat Datang di",
     digitalPartner: "Mitra Strategis Digital",
     tellUsWhatYouNeed: "Beritahu kami apa yang Anda butuhkan",
-    searchPlaceholder: "Kecerdasan Buatan"
+    searchPlaceholder: "Tanyakan apapun tentang GSA...",
+    aiTyping: "AI sedang mengetik...",
+    tryAgain: "Coba Lagi",
+    clearChat: "Hapus Chat"
   }
 };
 
+interface ChatMessage {
+  id: string;
+  type: 'user' | 'ai';
+  content: string;
+  timestamp: Date;
+}
+
 const Hero = () => {
   const [text, setText] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showChat, setShowChat] = useState(false);
   const { language } = useI18n();
   const t = translations[language as keyof typeof translations];
   const fullText = t.digitalPartner;
@@ -47,6 +64,64 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [fullText]);
 
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim() || isLoading) return;
+
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      type: 'user',
+      content: searchQuery,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setIsLoading(true);
+    setShowChat(true);
+
+    try {
+      const response = await fetch('/api/gemini-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: searchQuery }),
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      const aiMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'ai',
+        content: data.response,
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, aiMessage]);
+    } catch (error) {
+      console.error('Search error:', error);
+      const errorMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        type: 'ai',
+        content: 'Sorry, I encountered an error. Please try again or contact GSA directly at info@gsagroup.id.',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+      setSearchQuery('');
+    }
+  };
+
+  const clearChat = () => {
+    setMessages([]);
+    setShowChat(false);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-500 via-blue-500 to-green-500 flex items-center px-4 relative overflow-hidden pt-8">
       <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -66,19 +141,81 @@ const Hero = () => {
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className="relative max-w-6xl">
             <p className="text-white/90 mb-8 text-lg font-medium">{t.tellUsWhatYouNeed}</p>
-            <div className="relative">
-              <input type="text" placeholder={t.searchPlaceholder} className="w-full px-8 py-6 rounded-2xl text-gray-800 bg-white/95 backdrop-blur-sm focus:outline-none focus:ring-4 focus:ring-white/30 pl-20 text-lg font-medium shadow-2xl" />
+            
+            {/* Search Form */}
+            <form onSubmit={handleSearch} className="relative mb-8">
+              <input 
+                type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={t.searchPlaceholder} 
+                className="w-full px-8 py-6 rounded-2xl text-gray-800 bg-white/95 backdrop-blur-sm focus:outline-none focus:ring-4 focus:ring-white/30 pl-20 text-lg font-medium shadow-2xl" 
+                disabled={isLoading}
+              />
               <div className="absolute left-6 top-1/2 transform -translate-y-1/2 w-8 h-8">
                 <Image src="/Home/Logo AI Intelligence.png" alt="AI Intelligence" width={32} height={32} className="object-contain" />
               </div>
-              <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+              <button
+                type="submit"
+                disabled={isLoading || !searchQuery.trim()}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 disabled:opacity-50 hover:scale-110 transition-transform"
+              >
                 <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-              </div>
-            </div>
+              </button>
+            </form>
+
+            {/* Chat Interface */}
+            {showChat && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 max-h-96 overflow-hidden flex flex-col"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-white font-semibold text-lg">GSA AI Assistant</h3>
+                  <button
+                    onClick={clearChat}
+                    className="text-white/70 hover:text-white text-sm bg-white/10 px-3 py-1 rounded-lg hover:bg-white/20 transition-colors"
+                  >
+                    {t.clearChat}
+                  </button>
+                </div>
+                
+                <div className="flex-1 overflow-y-auto space-y-4 mb-4 max-h-64">
+                  {messages.map((message) => (
+                    <div key={message.id} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                      <div className={`max-w-[80%] p-3 rounded-lg ${
+                        message.type === 'user' 
+                          ? 'bg-blue-500 text-white' 
+                          : 'bg-white/20 text-white'
+                      }`}>
+                        <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                        <p className="text-xs opacity-70 mt-1">
+                          {message.timestamp.toLocaleTimeString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {isLoading && (
+                    <div className="flex justify-start">
+                      <div className="bg-white/20 text-white p-3 rounded-lg">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-white rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                          <div className="w-2 h-2 bg-white rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                          <span className="text-sm ml-2">{t.aiTyping}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            )}
           </motion.div>
         </div>
       </div>
