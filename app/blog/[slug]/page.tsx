@@ -10,6 +10,85 @@ import { BLOCKS, MARKS, INLINES, Block, Inline } from '@contentful/rich-text-typ
 import Navbar from '../../../src/components/Navbar';
 import Footer from '../../../src/components/Footer';
 import { getBlogPostBySlug, getAllBlogPosts, BlogPost } from '../../../lib/contentful';
+import { useI18n } from '../../../src/components/I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    navigation: {
+      backToBlog: "← Back to Blog"
+    },
+    metadata: {
+      by: "By",
+      minRead: "min read"
+    },
+    loading: "Loading blog post...",
+    error: {
+      title: "Blog Post Not Found",
+      message: "The blog post you're looking for doesn't exist.",
+      lookingForContent: "Looking for content?",
+      description: "Blog posts will appear here once you connect to Contentful CMS and create content.",
+      toGetStarted: "To get started:",
+      steps: [
+        "Set up your Contentful space",
+        "Create blog posts in Contentful",
+        "Add environment variables"
+      ],
+      seeGuide: "See BLOG_SETUP.md for detailed instructions",
+      backToBlog: "Back to Blog"
+    },
+    content: {
+      tags: "Tags",
+      shareTitle: "Share this article",
+      shareButtons: {
+        linkedin: "Share on LinkedIn",
+        twitter: "Share on Twitter",
+        whatsapp: "Share via WhatsApp"
+      }
+    },
+    relatedPosts: {
+      title: "Related Articles",
+      subtitle: "More insights from the same category"
+    }
+  },
+  id: {
+    navigation: {
+      backToBlog: "← Kembali ke Blog"
+    },
+    metadata: {
+      by: "Oleh",
+      minRead: "menit baca"
+    },
+    loading: "Memuat posting blog...",
+    error: {
+      title: "Posting Blog Tidak Ditemukan",
+      message: "Posting blog yang Anda cari tidak ada.",
+      lookingForContent: "Mencari konten?",
+      description: "Posting blog akan muncul di sini setelah Anda terhubung ke Contentful CMS dan membuat konten.",
+      toGetStarted: "Untuk memulai:",
+      steps: [
+        "Siapkan ruang Contentful Anda",
+        "Buat posting blog di Contentful",
+        "Tambahkan variabel lingkungan"
+      ],
+      seeGuide: "Lihat BLOG_SETUP.md untuk instruksi terperinci",
+      backToBlog: "Kembali ke Blog"
+    },
+    content: {
+      tags: "Tag",
+      shareTitle: "Bagikan artikel ini",
+      shareButtons: {
+        linkedin: "Bagikan di LinkedIn",
+        twitter: "Bagikan di Twitter",
+        whatsapp: "Bagikan via WhatsApp"
+      }
+    },
+    relatedPosts: {
+      title: "Artikel Terkait",
+      subtitle: "Lebih banyak wawasan dari kategori yang sama"
+    }
+  }
+};
 
 const renderOptions = {
   renderMark: {
@@ -87,6 +166,9 @@ const renderOptions = {
 };
 
 export default function BlogPostPage() {
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+  
   const params = useParams();
   const slug = params.slug as string;
   const [post, setPost] = useState<BlogPost | null>(null);
@@ -130,7 +212,8 @@ export default function BlogPostPage() {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    const locale = language === 'id' ? 'id-ID' : 'en-US';
+    return new Date(dateString).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -151,7 +234,7 @@ export default function BlogPostPage() {
         <div className="flex-1 flex items-center justify-center py-20">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading blog post...</p>
+            <p className="mt-4 text-gray-600">{t.loading}</p>
           </div>
         </div>
         <Footer />
@@ -166,22 +249,22 @@ export default function BlogPostPage() {
         <div className="flex-1 flex items-center justify-center py-20">
           <div className="text-center max-w-2xl mx-auto px-4">
             <div className="text-6xl mb-4">😕</div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">Blog Post Not Found</h1>
-            <p className="text-gray-600 mb-6">{error || 'The blog post you\'re looking for doesn\'t exist.'}</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">{t.error.title}</h1>
+            <p className="text-gray-600 mb-6">{error || t.error.message}</p>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
-              <h4 className="text-lg font-semibold text-blue-900 mb-2">Looking for content?</h4>
+              <h4 className="text-lg font-semibold text-blue-900 mb-2">{t.error.lookingForContent}</h4>
               <p className="text-blue-800 text-sm mb-4">
-                Blog posts will appear here once you connect to Contentful CMS and create content.
+                {t.error.description}
               </p>
               <div className="text-left text-sm text-blue-700">
-                <p className="font-medium mb-2">To get started:</p>
+                <p className="font-medium mb-2">{t.error.toGetStarted}</p>
                 <ol className="list-decimal list-inside space-y-1">
-                  <li>Set up your Contentful space</li>
-                  <li>Create blog posts in Contentful</li>
-                  <li>Add environment variables</li>
+                  {t.error.steps.map((step, index) => (
+                    <li key={index}>{step}</li>
+                  ))}
                 </ol>
                 <p className="mt-3 text-xs">
-                  📖 See <strong>BLOG_SETUP.md</strong> for detailed instructions
+                  📖 {t.error.seeGuide}
                 </p>
               </div>
             </div>
@@ -189,7 +272,7 @@ export default function BlogPostPage() {
               href="/blog"
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
             >
-              Back to Blog
+              {t.error.backToBlog}
             </Link>
           </div>
         </div>
@@ -226,7 +309,7 @@ export default function BlogPostPage() {
                 href="/blog"
                 className="text-white/80 hover:text-white text-sm transition-colors duration-300"
               >
-                ← Back to Blog
+                {t.navigation.backToBlog}
               </Link>
             </div>
             <div className="flex items-center justify-center gap-4 mb-4">
@@ -239,7 +322,7 @@ export default function BlogPostPage() {
               </span>
               <span className="text-white/80">•</span>
               <span className="text-white/80 text-sm">
-                {post.fields.readTime || getReadTime(post.fields.content)} min read
+                {post.fields.readTime || getReadTime(post.fields.content)} {t.metadata.minRead}
               </span>
             </div>
             <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
@@ -255,7 +338,7 @@ export default function BlogPostPage() {
                 </span>
               </div>
               <span className="text-white font-medium">
-                By {post.fields.author}
+                {t.metadata.by} {post.fields.author}
               </span>
             </div>
           </div>
@@ -282,7 +365,7 @@ export default function BlogPostPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-12 pt-8 border-t border-gray-200"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Tags</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.content.tags}</h3>
               <div className="flex flex-wrap gap-2">
                 {post.fields.tags.map((tag, index) => (
                   <span
@@ -303,16 +386,16 @@ export default function BlogPostPage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mt-12 pt-8 border-t border-gray-200"
           >
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Share this article</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{t.content.shareTitle}</h3>
             <div className="flex flex-wrap gap-4">
               <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors duration-300">
-                Share on LinkedIn
+                {t.content.shareButtons.linkedin}
               </button>
               <button className="bg-gray-800 text-white px-4 py-2 rounded-lg hover:bg-gray-900 transition-colors duration-300">
-                Share on Twitter
+                {t.content.shareButtons.twitter}
               </button>
               <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors duration-300">
-                Share via WhatsApp
+                {t.content.shareButtons.whatsapp}
               </button>
             </div>
           </motion.div>
@@ -331,9 +414,9 @@ export default function BlogPostPage() {
               className="text-center mb-12"
             >
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Related Articles
+                {t.relatedPosts.title}
               </h2>
-              <p className="text-gray-600">More insights from the same category</p>
+              <p className="text-gray-600">{t.relatedPosts.subtitle}</p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

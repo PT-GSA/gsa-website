@@ -3,10 +3,31 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useI18n } from './I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    companyName: "Gemerlang Sejahtera Abadi",
+    welcomeTo: "Welcome to the",
+    digitalPartner: "Digital Strategic Partner",
+    tellUsWhatYouNeed: "Tell us what you need",
+    searchPlaceholder: "AI Intelligence"
+  },
+  id: {
+    companyName: "Gemerlang Sejahtera Abadi",
+    welcomeTo: "Selamat Datang di",
+    digitalPartner: "Mitra Strategis Digital",
+    tellUsWhatYouNeed: "Beritahu kami apa yang Anda butuhkan",
+    searchPlaceholder: "Kecerdasan Buatan"
+  }
+};
 
 const Hero = () => {
   const [text, setText] = useState('');
-  const fullText = 'Digital Strategic Partner';
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+  const fullText = t.digitalPartner;
 
   useEffect(() => {
     let currentIndex = 0;
@@ -24,19 +45,19 @@ const Hero = () => {
     }, 150); // Slowed down typing speed for better readability
 
     return () => clearInterval(interval);
-  }, []);
+  }, [fullText]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-500 via-blue-500 to-green-500 flex items-center px-4 relative overflow-hidden pt-8">
       <div className="max-w-7xl mx-auto w-full relative z-10">
         <div className="max-w-full pt-2">
           <motion.h2 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="text-xl text-white mb-10 font-medium">
-            Gemerlang Sejahtera Abadi
+            {t.companyName}
           </motion.h2>
 
           <div className="mb-20">
             <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-5xl md:text-7xl font-bold text-white mb-8 leading-tight">
-              Welcome to the
+              {t.welcomeTo}
             </motion.h1>
             <div className="relative h-[1.2em] flex items-center mb-12">
               <h1 className="text-5xl md:text-7xl font-bold text-white whitespace-nowrap border-r-4 border-white inline-block animate-typing px-2">{text}</h1>
@@ -44,9 +65,9 @@ const Hero = () => {
           </div>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} className="relative max-w-6xl">
-            <p className="text-white/90 mb-8 text-lg font-medium">Tell us what you need</p>
+            <p className="text-white/90 mb-8 text-lg font-medium">{t.tellUsWhatYouNeed}</p>
             <div className="relative">
-              <input type="text" placeholder="AI Intelligence" className="w-full px-8 py-6 rounded-2xl text-gray-800 bg-white/95 backdrop-blur-sm focus:outline-none focus:ring-4 focus:ring-white/30 pl-20 text-lg font-medium shadow-2xl" />
+              <input type="text" placeholder={t.searchPlaceholder} className="w-full px-8 py-6 rounded-2xl text-gray-800 bg-white/95 backdrop-blur-sm focus:outline-none focus:ring-4 focus:ring-white/30 pl-20 text-lg font-medium shadow-2xl" />
               <div className="absolute left-6 top-1/2 transform -translate-y-1/2 w-8 h-8">
                 <Image src="/Home/Logo AI Intelligence.png" alt="AI Intelligence" width={32} height={32} className="object-contain" />
               </div>

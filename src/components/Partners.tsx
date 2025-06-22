@@ -2,8 +2,38 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useI18n } from './I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    trustedBy: "We are Trusted by our Clients and Global Network Partners",
+    leadingPartner: "Leading digital strategic partner with",
+    description: "Seamless IT solutions, efficient management support, integrated virtual ecosystems, and impactful digital marketing.",
+    stats: {
+      integratedSoftware: "Integrated Software",
+      globalNetwork: "Global Network",
+      dedicatedTeam: "Dedicated team with 60% Engineers",
+      softwareMastered: "Software that has been mastered"
+    }
+  },
+  id: {
+    trustedBy: "Kami Dipercaya oleh Klien dan Mitra Jaringan Global Kami",
+    leadingPartner: "Mitra strategis digital terdepan dengan",
+    description: "Solusi IT yang mulus, dukungan manajemen yang efisien, ekosistem virtual terintegrasi, dan pemasaran digital yang berdampak.",
+    stats: {
+      integratedSoftware: "Perangkat Lunak Terintegrasi",
+      globalNetwork: "Jaringan Global",
+      dedicatedTeam: "Tim khusus dengan 60% Insinyur",
+      softwareMastered: "Perangkat lunak yang telah dikuasai"
+    }
+  }
+};
 
 const Partners = () => {
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+
   const partners = [
     { id: 1, name: 'Partner 1', logo: '/partners/Elemen_Design_Website_Company_GSA__4_-removebg-preview.png' },
     { id: 2, name: 'Partner 2', logo: '/partners/Elemen_Design_Website_Company_GSA__5_-removebg-preview.png' },
@@ -41,7 +71,7 @@ const Partners = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Partners Logo Section */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-12">We are Trusted by our Clients and Global Network Partners</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-12">{t.trustedBy}</h2>
 
           {/* Partners logos with auto-scroll */}
           <div className="relative overflow-hidden bg-gray-50/50 rounded-2xl py-6">
@@ -78,29 +108,29 @@ const Partners = () => {
           {/* Stats and Description */}
           <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="space-y-6">
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Leading digital strategic partner with</h3>
-              <p className="text-gray-600 text-lg leading-relaxed">Seamless IT solutions, efficient management support, integrated virtual ecosystems, and impactful digital marketing.</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">{t.leadingPartner}</h3>
+              <p className="text-gray-600 text-lg leading-relaxed">{t.description}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-6">
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} viewport={{ once: true }} className="text-center">
                 <h4 className="text-3xl font-bold text-blue-600 mb-2">100+</h4>
-                <p className="text-gray-600 text-sm font-medium">Integrated Software</p>
+                <p className="text-gray-600 text-sm font-medium">{t.stats.integratedSoftware}</p>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} viewport={{ once: true }} className="text-center">
                 <h4 className="text-3xl font-bold text-blue-600 mb-2">11+</h4>
-                <p className="text-gray-600 text-sm font-medium">Global Network</p>
+                <p className="text-gray-600 text-sm font-medium">{t.stats.globalNetwork}</p>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} viewport={{ once: true }} className="text-center">
                 <h4 className="text-3xl font-bold text-blue-600 mb-2">350+</h4>
-                <p className="text-gray-600 text-sm font-medium">Dedicated team with 60% Engineers</p>
+                <p className="text-gray-600 text-sm font-medium">{t.stats.dedicatedTeam}</p>
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.4 }} viewport={{ once: true }} className="text-center">
                 <h4 className="text-3xl font-bold text-blue-600 mb-2">35+</h4>
-                <p className="text-gray-600 text-sm font-medium">Software that has been mastered</p>
+                <p className="text-gray-600 text-sm font-medium">{t.stats.softwareMastered}</p>
               </motion.div>
             </div>
           </motion.div>

@@ -7,30 +7,128 @@ import Link from 'next/link';
 import Navbar from '../../src/components/Navbar';
 import Footer from '../../src/components/Footer';
 import { getAllBlogPosts, getBlogPostsByCategory, BlogPost } from '../../lib/contentful';
+import { useI18n } from '../../src/components/I18nProvider';
 
-const categories = [
-  'All',
-  'Technology',
-  'Business',
-  'Innovation',
-  'Digital Marketing',
-  'Software Development',
-  'IT Services',
-];
-
-const sortOptions = [
-  { value: 'all', label: 'All' },
-  { value: 'newest', label: 'Newest' },
-  { value: 'most-read', label: 'Most Read' },
-];
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    breadcrumb: "Home • Blog",
+    pageTitle: "GSA Blog",
+    pageSubtitle: "Our News • Knowledge",
+    categories: {
+      all: "All",
+      technology: "Technology",
+      business: "Business",
+      innovation: "Innovation",
+      digitalMarketing: "Digital Marketing",
+      softwareDevelopment: "Software Development",
+      itServices: "IT Services"
+    },
+    sortOptions: {
+      all: "All",
+      newest: "Newest",
+      mostRead: "Most Read"
+    },
+    filters: {
+      selectDate: "Select Date"
+    },
+    loading: "Loading blog posts...",
+    noPosts: {
+      title: "No Posts Found",
+      messageAll: "No blog posts available at the moment. Check back soon!",
+      messageCategory: "No posts found in \"{category}\" category.",
+      setupTitle: "Ready to set up your blog?",
+      setupDescription: "To display real blog posts, you need to connect to Contentful CMS. Follow the setup guide to get started.",
+      quickSetup: "Quick Setup:",
+      steps: [
+        "Create a Contentful account",
+        "Set up the blog content model",
+        "Add your API keys to .env.local",
+        "Create your first blog post"
+      ],
+      seeGuide: "See BLOG_SETUP.md for detailed instructions"
+    },
+    cta: {
+      title: "Stay Updated with GSA Insights",
+      description: "Get the latest updates on technology trends, business insights, and digital transformation strategies.",
+      contactUs: "Contact Us",
+      ourServices: "Our Services"
+    }
+  },
+  id: {
+    breadcrumb: "Beranda • Blog",
+    pageTitle: "Blog GSA",
+    pageSubtitle: "Berita Kami • Pengetahuan",
+    categories: {
+      all: "Semua",
+      technology: "Teknologi",
+      business: "Bisnis",
+      innovation: "Inovasi",
+      digitalMarketing: "Digital Marketing",
+      softwareDevelopment: "Pengembangan Perangkat Lunak",
+      itServices: "Layanan IT"
+    },
+    sortOptions: {
+      all: "Semua",
+      newest: "Terbaru",
+      mostRead: "Paling Banyak Dibaca"
+    },
+    filters: {
+      selectDate: "Pilih Tanggal"
+    },
+    loading: "Memuat posting blog...",
+    noPosts: {
+      title: "Tidak Ada Postingan Ditemukan",
+      messageAll: "Tidak ada posting blog yang tersedia saat ini. Periksa kembali segera!",
+      messageCategory: "Tidak ada postingan ditemukan dalam kategori \"{category}\".",
+      setupTitle: "Siap untuk mengatur blog Anda?",
+      setupDescription: "Untuk menampilkan posting blog nyata, Anda perlu terhubung ke Contentful CMS. Ikuti panduan pengaturan untuk memulai.",
+      quickSetup: "Pengaturan Cepat:",
+      steps: [
+        "Buat akun Contentful",
+        "Siapkan model konten blog",
+        "Tambahkan kunci API Anda ke .env.local",
+        "Buat posting blog pertama Anda"
+      ],
+      seeGuide: "Lihat BLOG_SETUP.md untuk instruksi terperinci"
+    },
+    cta: {
+      title: "Tetap Update dengan Wawasan GSA",
+      description: "Dapatkan pembaruan terbaru tentang tren teknologi, wawasan bisnis, dan strategi transformasi digital.",
+      contactUs: "Hubungi Kami",
+      ourServices: "Layanan Kami"
+    }
+  }
+};
 
 export default function BlogPage() {
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+  
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<BlogPost[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [sortBy, setSortBy] = useState('all');
   const [selectedDate, setSelectedDate] = useState('');
   const [loading, setLoading] = useState(true);
+
+  // Create translated categories array
+  const translatedCategories = [
+    { key: 'All', label: t.categories.all },
+    { key: 'Technology', label: t.categories.technology },
+    { key: 'Business', label: t.categories.business },
+    { key: 'Innovation', label: t.categories.innovation },
+    { key: 'Digital Marketing', label: t.categories.digitalMarketing },
+    { key: 'Software Development', label: t.categories.softwareDevelopment },
+    { key: 'IT Services', label: t.categories.itServices },
+  ];
+
+  // Create translated sort options
+  const translatedSortOptions = [
+    { value: 'all', label: t.sortOptions.all },
+    { value: 'newest', label: t.sortOptions.newest },
+    { value: 'most-read', label: t.sortOptions.mostRead },
+  ];
 
   useEffect(() => {
     fetchPosts();
@@ -91,7 +189,8 @@ export default function BlogPage() {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    const locale = language === 'id' ? 'id-ID' : 'en-US';
+    return new Date(dateString).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -115,9 +214,9 @@ export default function BlogPage() {
           <div className="flex flex-col md:flex-row items-center justify-between">
             {/* Left side content */}
             <div className="text-center md:text-left text-white max-w-xl mb-8 md:mb-0">
-              <div className="text-sm mb-4 opacity-90">Home • Blog</div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-4">GSA Blog</h1>
-              <p className="text-xl opacity-90">Our News • Knowledge</p>
+              <div className="text-sm mb-4 opacity-90">{t.breadcrumb}</div>
+              <h1 className="text-5xl md:text-6xl font-bold mb-4">{t.pageTitle}</h1>
+              <p className="text-xl opacity-90">{t.pageSubtitle}</p>
             </div>
             
             {/* Right side robot illustration */}
@@ -140,7 +239,7 @@ export default function BlogPage() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             {/* Filter Tabs */}
             <div className="flex items-center gap-2">
-              {sortOptions.map((option) => (
+              {translatedSortOptions.map((option) => (
                 <button
                   key={option.value}
                   onClick={() => setSortBy(option.value)}
@@ -162,7 +261,7 @@ export default function BlogPage() {
                 onChange={(e) => setSelectedDate(e.target.value)}
                 className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-3 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent cursor-pointer min-w-[140px]"
               >
-                <option value="">Select Date</option>
+                <option value="">{t.filters.selectDate}</option>
                 <option value="2024">2024</option>
                 <option value="2023">2023</option>
                 <option value="2022">2022</option>
@@ -181,24 +280,22 @@ export default function BlogPage() {
       <section className="bg-gray-50 py-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-4">
-            {categories.map((category) => (
+            {translatedCategories.map((category) => (
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
+                key={category.key}
+                onClick={() => setSelectedCategory(category.key)}
                 className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                  selectedCategory === category
+                  selectedCategory === category.key
                     ? 'bg-blue-600 text-white shadow-lg'
                     : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
                 }`}
               >
-                {category}
+                {category.label}
               </button>
             ))}
           </div>
         </div>
       </section>
-
-
 
       {/* Blog Posts Grid */}
       <section className="py-12 bg-white">
@@ -206,33 +303,31 @@ export default function BlogPage() {
           {loading ? (
             <div className="text-center py-20">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Loading blog posts...</p>
+              <p className="mt-4 text-gray-600">{t.loading}</p>
             </div>
           ) : filteredPosts.length === 0 ? (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">📝</div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">No Posts Found</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">{t.noPosts.title}</h3>
               <p className="text-gray-600 mb-8">
                 {selectedCategory === 'All' 
-                  ? 'No blog posts available at the moment. Check back soon!' 
-                  : `No posts found in "${selectedCategory}" category.`}
+                  ? t.noPosts.messageAll
+                  : t.noPosts.messageCategory.replace('{category}', translatedCategories.find(cat => cat.key === selectedCategory)?.label || selectedCategory)}
               </p>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 max-w-2xl mx-auto">
-                <h4 className="text-lg font-semibold text-blue-900 mb-2">Ready to set up your blog?</h4>
+                <h4 className="text-lg font-semibold text-blue-900 mb-2">{t.noPosts.setupTitle}</h4>
                 <p className="text-blue-800 text-sm mb-4">
-                  To display real blog posts, you need to connect to Contentful CMS. 
-                  Follow the setup guide to get started.
+                  {t.noPosts.setupDescription}
                 </p>
                 <div className="text-left text-sm text-blue-700">
-                  <p className="font-medium mb-2">Quick Setup:</p>
+                  <p className="font-medium mb-2">{t.noPosts.quickSetup}</p>
                   <ol className="list-decimal list-inside space-y-1">
-                    <li>Create a Contentful account</li>
-                    <li>Set up the blog content model</li>
-                    <li>Add your API keys to .env.local</li>
-                    <li>Create your first blog post</li>
+                    {t.noPosts.steps.map((step, index) => (
+                      <li key={index}>{step}</li>
+                    ))}
                   </ol>
                   <p className="mt-3 text-xs">
-                    📖 See <strong>BLOG_SETUP.md</strong> for detailed instructions
+                    📖 {t.noPosts.seeGuide}
                   </p>
                 </div>
               </div>
@@ -304,17 +399,17 @@ export default function BlogPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-              Stay Updated with GSA Insights
+              {t.cta.title}
             </h2>
             <p className="text-gray-600 mb-6">
-              Get the latest updates on technology trends, business insights, and digital transformation strategies.
+              {t.cta.description}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/contact"
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-all duration-300 flex items-center justify-center gap-2"
               >
-                Contact Us
+                {t.cta.contactUs}
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
@@ -323,7 +418,7 @@ export default function BlogPage() {
                 href="/services"
                 className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all duration-300"
               >
-                Our Services
+                {t.cta.ourServices}
               </Link>
             </div>
           </motion.div>

@@ -2,20 +2,62 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useI18n } from './I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    sectionTitle: "Our Services",
+    mainHeading: "What do you",
+    needText: "Need?",
+    subtitle: "We can help according to your needs",
+    moreInformation: "More Information",
+    services: {
+      itOutsourcing: {
+        title: "IT Outsourcing",
+        description: "We offer a team for your project"
+      },
+      itServices: {
+        title: "IT Services", 
+        description: "We provide IT services according to your needs"
+      }
+    }
+  },
+  id: {
+    sectionTitle: "Layanan Kami",
+    mainHeading: "Apa yang Anda",
+    needText: "Butuhkan?",
+    subtitle: "Kami dapat membantu sesuai kebutuhan Anda",
+    moreInformation: "Informasi Lebih Lanjut",
+    services: {
+      itOutsourcing: {
+        title: "IT Outsourcing",
+        description: "Kami menawarkan tim untuk proyek Anda"
+      },
+      itServices: {
+        title: "Layanan IT",
+        description: "Kami menyediakan layanan IT sesuai kebutuhan Anda"
+      }
+    }
+  }
+};
 
 const Services = () => {
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+
   const services = [
     {
       id: 1,
-      title: 'IT Outsourcing',
-      description: 'We offer a team for your project',
+      title: t.services.itOutsourcing.title,
+      description: t.services.itOutsourcing.description,
       image: '/Home/Elemen Design Website Company GSA (40) copy 4.png',
       link: '/services/outsourcing',
     },
     {
       id: 2,
-      title: 'IT Services',
-      description: 'We provide IT services according to your needs',
+      title: t.services.itServices.title,
+      description: t.services.itServices.description,
       image: '/Home/Elemen Design Website Company GSA (40) copy 5.png',
       link: '/services/it-services',
     },
@@ -25,11 +67,11 @@ const Services = () => {
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-center mb-16">
-          <p className="text-blue-600 font-semibold mb-3 text-base">Our Services</p>
+          <p className="text-blue-600 font-semibold mb-3 text-base">{t.sectionTitle}</p>
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
-            What do you <span className="text-blue-600">Need?</span>
+            {t.mainHeading} <span className="text-blue-600">{t.needText}</span>
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">We can help according to your needs</p>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">{t.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -50,7 +92,7 @@ const Services = () => {
                     </p>
                     
                     <motion.a href={service.link} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 text-sm">
-                      More Information
+                      {t.moreInformation}
                       <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>

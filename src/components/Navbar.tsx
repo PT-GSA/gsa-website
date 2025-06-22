@@ -4,6 +4,25 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Image from 'next/image';
+import { useI18n } from './I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    home: "Home",
+    about: "About Us",
+    services: "Services",
+    blog: "Blog",
+    contact: "Contact"
+  },
+  id: {
+    home: "Beranda",
+    about: "Tentang Kami",
+    services: "Layanan",
+    blog: "Blog",
+    contact: "Kontak"
+  }
+};
 
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
   return (
@@ -17,10 +36,12 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [language, setLanguage] = useState('EN');
+  const { language, changeLanguage } = useI18n();
+  const t = translations[language as keyof typeof translations];
 
   const toggleLanguage = () => {
-    setLanguage(language === 'EN' ? 'ID' : 'EN');
+    const newLanguage = language === 'en' ? 'id' : 'en';
+    changeLanguage(newLanguage);
   };
 
   return (
@@ -38,11 +59,11 @@ const Navbar = () => {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
-            <NavLink href="/">Home</NavLink>
-            <NavLink href="/about">About Us</NavLink>
-            <NavLink href="/services">Services</NavLink>
-            <NavLink href="/blog">Blog</NavLink>
-            <NavLink href="/contact">Contact</NavLink>
+            <NavLink href="/">{t.home}</NavLink>
+            <NavLink href="/about">{t.about}</NavLink>
+            <NavLink href="/services">{t.services}</NavLink>
+            <NavLink href="/blog">{t.blog}</NavLink>
+            <NavLink href="/contact">{t.contact}</NavLink>
           </div>
 
           {/* Language Toggle */}
@@ -52,7 +73,7 @@ const Navbar = () => {
               <motion.div
                 className="absolute bg-white rounded-full shadow-lg"
                 animate={{
-                  x: language === 'ID' ? 2 : 34,
+                  x: language === 'id' ? 2 : 34,
                 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 style={{
@@ -64,8 +85,8 @@ const Navbar = () => {
 
               {/* Language text */}
               <div className="flex items-center justify-between w-full px-2 relative z-10">
-                <span className={`text-xs font-medium transition-colors duration-300 ${language === 'ID' ? 'text-gray-700' : 'text-white'}`}>ID</span>
-                <span className={`text-xs font-medium transition-colors duration-300 ${language === 'EN' ? 'text-gray-700' : 'text-white'}`}>EN</span>
+                <span className={`text-xs font-medium transition-colors duration-300 ${language === 'id' ? 'text-gray-700' : 'text-white'}`}>ID</span>
+                <span className={`text-xs font-medium transition-colors duration-300 ${language === 'en' ? 'text-gray-700' : 'text-white'}`}>EN</span>
               </div>
             </motion.div>
 
@@ -84,11 +105,11 @@ const Navbar = () => {
         {isOpen && (
           <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }} className="md:hidden pb-4 border-t border-white/20">
             <div className="flex flex-col space-y-1 pt-4">
-              <NavLink href="/">Home</NavLink>
-              <NavLink href="/about">About Us</NavLink>
-              <NavLink href="/services">Services</NavLink>
-              <NavLink href="/blog">Blog</NavLink>
-              <NavLink href="/contact">Contact</NavLink>
+              <NavLink href="/">{t.home}</NavLink>
+              <NavLink href="/about">{t.about}</NavLink>
+              <NavLink href="/services">{t.services}</NavLink>
+              <NavLink href="/blog">{t.blog}</NavLink>
+              <NavLink href="/contact">{t.contact}</NavLink>
             </div>
           </motion.div>
         )}

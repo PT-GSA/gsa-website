@@ -8,8 +8,102 @@ import Navbar from '../../src/components/Navbar';
 import Footer from '../../src/components/Footer';
 import { getAllBlogPosts, BlogPost } from '../../lib/contentful';
 import { Document } from '@contentful/rich-text-types';
+import { useI18n } from '../../src/components/I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    breadcrumb: "Home • About Us",
+    pageTitle: "About Us",
+    pageSubtitle: "GSA's Information • Our Journey",
+    companyDescription: "GSA is a company that specializes in IT consulting, software development (development), and others. GSA is supported by a team of experts in each field and has served clients from national to international levels.",
+    seoSection: {
+      title: "Is your website just for display or your website not found by Google?",
+      subtitle: "This means you need to improve your SEO (Search Engine Optimization)!",
+      cta: "We can help you with this problem!"
+    },
+    msmeSection: {
+      title: "Want to create your own MSME Business?",
+      description: "GSA provides services from website creation to digital marketing so that if you who want to build or develop MSME businesses.",
+      whyUs: "Why Us?",
+      whyUsDescription: "GSA has given the most affordable price for you!",
+      moreInfo: "More Information"
+    },
+    blogSection: {
+      title: "GSA Blog",
+      previewMode: "Preview Mode:",
+      previewDescription: "These are sample blog posts. Connect to Contentful CMS to display real content.",
+      clickToSee: "Click to see our Blog"
+    },
+    whatWeCanDo: {
+      title: "What's we can do for you?",
+      description1: "We offer exceptional expertise across a range of key services tailored to your needs. Our team of professionals is committed to delivering outstanding results that help you achieve your goals and stay ahead in a competitive landscape.",
+      description2: "With a focus on quality and customer satisfaction, we aim to exceed your expectations and provide results that truly make a difference."
+    },
+    samplePosts: {
+      post1: {
+        title: "Digital Civilization Revolution 2035, AI & ML Digital Era",
+        excerpt: "Ever heard of the Industrial Revolution 4.0 that seems Digital? Now it's time for us to prepare for the next era..."
+      },
+      post2: {
+        title: "Technological Developments that Change the World GO",
+        excerpt: "Technology continues to develop rapidly and changes the way we work and interact..."
+      },
+      post3: {
+        title: "DuckDuckGo Launches AI Chatbot",
+        excerpt: "DuckDuckGo just announced that it has launched an AI chatbot with a focus on strong privacy..."
+      }
+    }
+  },
+  id: {
+    breadcrumb: "Beranda • Tentang Kami",
+    pageTitle: "Tentang Kami",
+    pageSubtitle: "Informasi GSA • Perjalanan Kami",
+    companyDescription: "GSA adalah perusahaan yang mengkhususkan diri dalam konsultasi IT, pengembangan perangkat lunak (development), dan lainnya. GSA didukung oleh tim ahli di setiap bidang dan telah melayani klien dari tingkat nasional hingga internasional.",
+    seoSection: {
+      title: "Apakah website Anda hanya untuk pajangan atau website Anda tidak ditemukan oleh Google?",
+      subtitle: "Ini berarti Anda perlu meningkatkan SEO (Search Engine Optimization) Anda!",
+      cta: "Kami dapat membantu Anda dengan masalah ini!"
+    },
+    msmeSection: {
+      title: "Ingin membuat Bisnis UMKM sendiri?",
+      description: "GSA menyediakan layanan mulai dari pembuatan website hingga digital marketing sehingga jika Anda yang ingin membangun atau mengembangkan bisnis UMKM.",
+      whyUs: "Mengapa Kami?",
+      whyUsDescription: "GSA telah memberikan harga paling terjangkau untuk Anda!",
+      moreInfo: "Informasi Lebih Lanjut"
+    },
+    blogSection: {
+      title: "Blog GSA",
+      previewMode: "Mode Pratinjau:",
+      previewDescription: "Ini adalah contoh postingan blog. Hubungkan ke Contentful CMS untuk menampilkan konten yang sebenarnya.",
+      clickToSee: "Klik untuk melihat Blog kami"
+    },
+    whatWeCanDo: {
+      title: "Apa yang bisa kami lakukan untuk Anda?",
+      description1: "Kami menawarkan keahlian luar biasa di berbagai layanan utama yang disesuaikan dengan kebutuhan Anda. Tim profesional kami berkomitmen untuk memberikan hasil yang luar biasa yang membantu Anda mencapai tujuan dan tetap unggul dalam lanskap yang kompetitif.",
+      description2: "Dengan fokus pada kualitas dan kepuasan pelanggan, kami bertujuan untuk melampaui harapan Anda dan memberikan hasil yang benar-benar membuat perbedaan."
+    },
+    samplePosts: {
+      post1: {
+        title: "Revolusi Peradaban 2035, AI & ML Era Digital",
+        excerpt: "Pernah mendengar soal Revolusi Industri 4.0 yang seolah Digital? Kini saatnya kita bersiap untuk era berikutnya..."
+      },
+      post2: {
+        title: "Perkembangan Teknologi yang Mengubah Dunia GO",
+        excerpt: "Teknologi terus berkembang dengan pesat dan mengubah cara kita bekerja dan berinteraksi..."
+      },
+      post3: {
+        title: "DuckDuckGo Meluncurkan Chatbot AI",
+        excerpt: "DuckDuckGo baru mengumumkan telah meluncurkan chatbot AI dengan fokus pada privasi yang kuat..."
+      }
+    }
+  }
+};
 
 const AboutUs = () => {
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+  
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,7 +123,8 @@ const AboutUs = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    const locale = language === 'id' ? 'id-ID' : 'en-US';
+    return new Date(dateString).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -41,9 +136,9 @@ const AboutUs = () => {
     {
       sys: { id: '1', createdAt: '', updatedAt: '' },
       fields: {
-        title: 'Revolusi Peradaban 2035, AI & ML Era Digital',
+        title: t.samplePosts.post1.title,
         slug: 'revolusi-peradaban-2035-ai-ml',
-        excerpt: 'Pernah mendengar soal Revolusi Industri 4.0 yang seolah Digital? Kini saatnya kita bersiap untuk era berikutnya...',
+        excerpt: t.samplePosts.post1.excerpt,
         category: 'Technology',
         author: 'GSA',
         publishDate: '2024-03-12',
@@ -58,9 +153,9 @@ const AboutUs = () => {
     {
       sys: { id: '2', createdAt: '', updatedAt: '' },
       fields: {
-        title: 'Perkembangan Teknologi yang Mengubah Dunia GO',
+        title: t.samplePosts.post2.title,
         slug: 'perkembangan-teknologi-go',
-        excerpt: 'Teknologi terus berkembang dengan pesat dan mengubah cara kita bekerja dan berinteraksi...',
+        excerpt: t.samplePosts.post2.excerpt,
         category: 'Technology',
         author: 'GSA',
         publishDate: '2024-11-29',
@@ -75,9 +170,9 @@ const AboutUs = () => {
     {
       sys: { id: '3', createdAt: '', updatedAt: '' },
       fields: {
-        title: 'DuckDuckGo Meluncurkan Chatbot AI',
+        title: t.samplePosts.post3.title,
         slug: 'duckduckgo-chatbot-ai',
-        excerpt: 'DuckDuckGo baru mengumumkan telah meluncurkan chatbot AI dengan fokus pada privasi yang kuat...',
+        excerpt: t.samplePosts.post3.excerpt,
         category: 'Innovation',
         author: 'DuckDuckGo',
         publishDate: '2024-01-15',
@@ -108,9 +203,9 @@ const AboutUs = () => {
               transition={{ duration: 0.5 }}
               className="text-center md:text-left text-white max-w-xl mb-8 md:mb-0"
             >
-              <div className="text-sm mb-4 opacity-90">Home • About Us</div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-4">About Us</h1>
-              <p className="text-xl opacity-90">GSA&apos;s Information • Our Journey</p>
+              <div className="text-sm mb-4 opacity-90">{t.breadcrumb}</div>
+              <h1 className="text-5xl md:text-6xl font-bold mb-4">{t.pageTitle}</h1>
+              <p className="text-xl opacity-90">{t.pageSubtitle}</p>
             </motion.div>
             
             {/* Right side robot illustration */}
@@ -153,12 +248,8 @@ const AboutUs = () => {
             </div>
             
             <p className="text-lg text-gray-600 max-w-4xl mx-auto leading-relaxed mb-12">
-              GSA is a company that specializes in IT consulting, software development (development), 
-              and others. GSA is supported by a team of experts in each field and has served clients from 
-              national to international levels.
+              {t.companyDescription}
             </p>
-            
-
           </motion.div>
         </div>
       </section>
@@ -203,13 +294,13 @@ const AboutUs = () => {
               className="text-white"
             >
               <h3 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-                Is your website just for display or your website not found by Google?
+                {t.seoSection.title}
               </h3>
               <p className="text-white/90 mb-6 text-lg">
-                This means you need to improve your SEO (Search Engine Optimization)!
+                {t.seoSection.subtitle}
               </p>
               <p className="text-white font-semibold text-xl">
-                We can help you with this problem!
+                {t.seoSection.cta}
               </p>
             </motion.div>
           </div>
@@ -228,20 +319,19 @@ const AboutUs = () => {
               className="text-white"
             >
               <h3 className="text-3xl md:text-4xl font-bold mb-6 leading-tight">
-                Want to create your own MSME Business?
+                {t.msmeSection.title}
               </h3>
               <p className="text-white/90 mb-8 text-lg leading-relaxed">
-                GSA provides services from website creation to digital marketing so that if you who want to 
-                build or develop MSME businesses.
+                {t.msmeSection.description}
               </p>
               
               <div className="backdrop-blur-sm rounded-2xl py-6 pr-6 mb-8">
-                <h4 className="text-xl font-semibold mb-4">Why Us?</h4>
+                <h4 className="text-xl font-semibold mb-4">{t.msmeSection.whyUs}</h4>
                 <p className="text-white/90 mb-6">
-                  GSA has given the most affordable price for you!
+                  {t.msmeSection.whyUsDescription}
                 </p>
                 <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg">
-                  More Information
+                  {t.msmeSection.moreInfo}
                 </button>
               </div>
             </motion.div>
@@ -276,7 +366,7 @@ const AboutUs = () => {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-12">GSA Blog</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-12">{t.blogSection.title}</h2>
             
             {loading ? (
               <div className="flex justify-center items-center py-12">
@@ -357,7 +447,7 @@ const AboutUs = () => {
                 className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 text-center max-w-2xl mx-auto"
               >
                 <p className="text-blue-800 text-sm">
-                  <strong>Preview Mode:</strong> These are sample blog posts. Connect to Contentful CMS to display real content.
+                  <strong>{t.blogSection.previewMode}</strong> {t.blogSection.previewDescription}
                 </p>
               </motion.div>
             )}
@@ -369,7 +459,7 @@ const AboutUs = () => {
             >
               <Link href="/blog">
                 <button className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-10 py-4 rounded-full font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-purple-500/25">
-                  Click to see our Blog
+                  {t.blogSection.clickToSee}
                 </button>
               </Link>
             </motion.div>
@@ -377,7 +467,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-            {/* What We Can Do Section */}
+      {/* What We Can Do Section */}
       <section className="py-20 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
@@ -418,13 +508,13 @@ const AboutUs = () => {
               className="space-y-6 lg:col-span-2"
             >
               <h2 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
-                What&apos;s we can do for you?
+                {t.whatWeCanDo.title}
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed">
-                We offer exceptional expertise across a range of key services tailored to your needs. Our team of professionals is committed to delivering outstanding results that help you achieve your goals and stay ahead in a competitive landscape.
+                {t.whatWeCanDo.description1}
               </p>
               <p className="text-gray-600 text-lg leading-relaxed">
-                With a focus on quality and customer satisfaction, we aim to exceed your expectations and provide results that truly make a difference.
+                {t.whatWeCanDo.description2}
               </p>
             </motion.div>
           </div>

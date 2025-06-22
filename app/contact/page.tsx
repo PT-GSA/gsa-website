@@ -5,8 +5,136 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Navbar from '../../src/components/Navbar';
 import Footer from '../../src/components/Footer';
+import { useI18n } from '../../src/components/I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    breadcrumb: {
+      home: "Home",
+      contact: "Contact"
+    },
+    hero: {
+      title: "Contact Us",
+      subtitle: "Interact with us"
+    },
+    consultation: {
+      title: "Do a consultation with our team",
+      titleHighlight: "consultation"
+    },
+    contactInfo: {
+      title: "We Can Help You",
+      subtitle: "To advance your company in technology and branding",
+      ourInformation: "Our Information",
+      headquarters: "Headquarters",
+      email: "Email",
+      phone: "Phone",
+      workingHour: "Working Hour",
+      workingDays: "Monday - Friday",
+      workingTime: "09:00 AM - 17:00 PM",
+      address: {
+        line1: "Sampoerna Strategic Square,",
+        line2: "South Tower, 18th Floor",
+        line3: "Jl. Jenderal Sudirman No.45 - 46, RT.3/RW.4,",
+        line4: "Karet Semanggi, Kecamatan Setiabudi,",
+        line5: "Kota Jakarta Selatan, Daerah Khusus",
+        line6: "Ibukota Jakarta 12930"
+      }
+    },
+    form: {
+      fullName: {
+        label: "Full Name*",
+        placeholder: "Full Name"
+      },
+      companyName: {
+        label: "Company Name",
+        placeholder: "Company Name"
+      },
+      email: {
+        label: "Email*",
+        placeholder: "Email"
+      },
+      phoneNumber: {
+        label: "Active Phone Number*",
+        placeholder: "Phone"
+      },
+      address: {
+        label: "Address*",
+        placeholder: "Address"
+      },
+      notes: {
+        label: "Notes*",
+        placeholder: "Notes"
+      },
+      submit: "Submit"
+    }
+  },
+  id: {
+    breadcrumb: {
+      home: "Beranda",
+      contact: "Kontak"
+    },
+    hero: {
+      title: "Hubungi Kami",
+      subtitle: "Berinteraksi dengan kami"
+    },
+    consultation: {
+      title: "Lakukan konsultasi dengan tim kami",
+      titleHighlight: "konsultasi"
+    },
+    contactInfo: {
+      title: "Kami Dapat Membantu Anda",
+      subtitle: "Untuk memajukan perusahaan Anda dalam teknologi dan branding",
+      ourInformation: "Informasi Kami",
+      headquarters: "Kantor Pusat",
+      email: "Email",
+      phone: "Telepon",
+      workingHour: "Jam Kerja",
+      workingDays: "Senin - Jumat",
+      workingTime: "09:00 - 17:00",
+      address: {
+        line1: "Sampoerna Strategic Square,",
+        line2: "South Tower, Lantai 18",
+        line3: "Jl. Jenderal Sudirman No.45 - 46, RT.3/RW.4,",
+        line4: "Karet Semanggi, Kecamatan Setiabudi,",
+        line5: "Kota Jakarta Selatan, Daerah Khusus",
+        line6: "Ibukota Jakarta 12930"
+      }
+    },
+    form: {
+      fullName: {
+        label: "Nama Lengkap*",
+        placeholder: "Nama Lengkap"
+      },
+      companyName: {
+        label: "Nama Perusahaan",
+        placeholder: "Nama Perusahaan"
+      },
+      email: {
+        label: "Email*",
+        placeholder: "Email"
+      },
+      phoneNumber: {
+        label: "Nomor Telepon Aktif*",
+        placeholder: "Telepon"
+      },
+      address: {
+        label: "Alamat*",
+        placeholder: "Alamat"
+      },
+      notes: {
+        label: "Catatan*",
+        placeholder: "Catatan"
+      },
+      submit: "Kirim"
+    }
+  }
+};
 
 const ContactPage = () => {
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+  
   const [formData, setFormData] = useState({
     fullName: '',
     companyName: '',
@@ -41,19 +169,19 @@ const ContactPage = () => {
             <div className="flex-1">
               {/* Breadcrumb */}
               <div className="mb-8">
-                <span className="text-white/80">Home</span>
+                <span className="text-white/80">{t.breadcrumb.home}</span>
                 <span className="text-white/80 mx-2">›</span>
-                <span className="text-white">Contact</span>
+                <span className="text-white">{t.breadcrumb.contact}</span>
               </div>
 
               {/* Title */}
               <h1 className="text-6xl font-bold mb-4">
-                Contact Us
+                {t.hero.title}
               </h1>
 
               {/* Subtitle */}
               <p className="text-xl text-white/90">
-                Interact with us
+                {t.hero.subtitle}
               </p>
             </div>
 
@@ -89,7 +217,9 @@ const ContactPage = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Do a <span className="text-blue-600">consultation</span> with our team
+              {t.consultation.title.split(t.consultation.titleHighlight)[0]}
+              <span className="text-blue-600">{t.consultation.titleHighlight}</span>
+              {t.consultation.title.split(t.consultation.titleHighlight)[1]}
             </h2>
           </motion.div>
 
@@ -103,32 +233,32 @@ const ContactPage = () => {
               className="space-y-8"
             >
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">We Can Help You</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-8">{t.contactInfo.title}</h3>
                 <p className="text-gray-600 text-lg">
-                  To advance your company in technology and branding
+                  {t.contactInfo.subtitle}
                 </p>
               </div>
 
               <div>
-                <h4 className="text-xl font-bold text-gray-900 mb-6">Our Information</h4>
+                <h4 className="text-xl font-bold text-gray-900 mb-6">{t.contactInfo.ourInformation}</h4>
                 
                 {/* Headquarters */}
                 <div className="mb-6">
-                  <h5 className="font-semibold text-gray-900 mb-3">Headquarters</h5>
+                  <h5 className="font-semibold text-gray-900 mb-3">{t.contactInfo.headquarters}</h5>
                   <div className="text-gray-600">
-                    <p>Sampoerna Strategic Square,</p>
-                    <p>South Tower, 18th Floor</p>
+                    <p>{t.contactInfo.address.line1}</p>
+                    <p>{t.contactInfo.address.line2}</p>
                     <br />
-                    <p>Jl. Jenderal Sudirman No.45 - 46, RT.3/RW.4,</p>
-                    <p>Karet Semanggi, Kecamatan Setiabudi,</p>
-                    <p>Kota Jakarta Selatan, Daerah Khusus</p>
-                    <p>Ibukota Jakarta 12930</p>
+                    <p>{t.contactInfo.address.line3}</p>
+                    <p>{t.contactInfo.address.line4}</p>
+                    <p>{t.contactInfo.address.line5}</p>
+                    <p>{t.contactInfo.address.line6}</p>
                   </div>
                 </div>
 
                 {/* Email */}
                 <div className="mb-6">
-                  <h5 className="font-semibold text-gray-900 mb-3">Email</h5>
+                  <h5 className="font-semibold text-gray-900 mb-3">{t.contactInfo.email}</h5>
                   <a 
                     href="mailto:info@gsagroup.id" 
                     className="text-blue-600 hover:text-blue-700 transition-colors duration-300"
@@ -139,16 +269,16 @@ const ContactPage = () => {
 
                 {/* Phone */}
                 <div className="mb-6">
-                  <h5 className="font-semibold text-gray-900 mb-3">Phone</h5>
+                  <h5 className="font-semibold text-gray-900 mb-3">{t.contactInfo.phone}</h5>
                   <p className="text-gray-600">+62 878-5420-7963</p>
                 </div>
 
                 {/* Working Hours */}
                 <div className="mb-6">
-                  <h5 className="font-semibold text-gray-900 mb-3">Working Hour</h5>
+                  <h5 className="font-semibold text-gray-900 mb-3">{t.contactInfo.workingHour}</h5>
                   <div className="text-gray-600">
-                    <p>Monday - Friday</p>
-                    <p>09:00 AM - 17:00 PM</p>
+                    <p>{t.contactInfo.workingDays}</p>
+                    <p>{t.contactInfo.workingTime}</p>
                   </div>
                 </div>
               </div>
@@ -165,7 +295,7 @@ const ContactPage = () => {
                 {/* Full Name */}
                 <div>
                   <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name*
+                    {t.form.fullName.label}
                   </label>
                   <input
                     type="text"
@@ -173,7 +303,7 @@ const ContactPage = () => {
                     name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
-                    placeholder="Full Name"
+                    placeholder={t.form.fullName.placeholder}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                     required
                   />
@@ -182,7 +312,7 @@ const ContactPage = () => {
                 {/* Company Name */}
                 <div>
                   <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-2">
-                    Company Name
+                    {t.form.companyName.label}
                   </label>
                   <input
                     type="text"
@@ -190,7 +320,7 @@ const ContactPage = () => {
                     name="companyName"
                     value={formData.companyName}
                     onChange={handleInputChange}
-                    placeholder="Company Name"
+                    placeholder={t.form.companyName.placeholder}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                   />
                 </div>
@@ -198,7 +328,7 @@ const ContactPage = () => {
                 {/* Email */}
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email*
+                    {t.form.email.label}
                   </label>
                   <input
                     type="email"
@@ -206,7 +336,7 @@ const ContactPage = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    placeholder="Email"
+                    placeholder={t.form.email.placeholder}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                     required
                   />
@@ -215,7 +345,7 @@ const ContactPage = () => {
                 {/* Active Phone Number */}
                 <div>
                   <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-2">
-                    Active Phone Number*
+                    {t.form.phoneNumber.label}
                   </label>
                   <input
                     type="tel"
@@ -223,7 +353,7 @@ const ContactPage = () => {
                     name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
-                    placeholder="Phone"
+                    placeholder={t.form.phoneNumber.placeholder}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                     required
                   />
@@ -232,14 +362,14 @@ const ContactPage = () => {
                 {/* Address */}
                 <div>
                   <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                    Address*
+                    {t.form.address.label}
                   </label>
                   <textarea
                     id="address"
                     name="address"
                     value={formData.address}
                     onChange={handleInputChange}
-                    placeholder="Address"
+                    placeholder={t.form.address.placeholder}
                     rows={3}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                     required
@@ -249,14 +379,14 @@ const ContactPage = () => {
                 {/* Notes */}
                 <div>
                   <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2">
-                    Notes*
+                    {t.form.notes.label}
                   </label>
                   <textarea
                     id="notes"
                     name="notes"
                     value={formData.notes}
                     onChange={handleInputChange}
-                    placeholder="Notes"
+                    placeholder={t.form.notes.placeholder}
                     rows={4}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
                     required
@@ -270,7 +400,7 @@ const ContactPage = () => {
                   type="submit"
                   className="w-full bg-gradient-to-r from-purple-500 to-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:from-purple-600 hover:to-green-600 transition-all duration-300 shadow-lg"
                 >
-                  Submit
+                  {t.form.submit}
                 </motion.button>
               </form>
             </motion.div>

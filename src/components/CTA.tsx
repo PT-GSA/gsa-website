@@ -2,8 +2,28 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { useI18n } from './I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    readyToTake: "Ready to Take Your",
+    businessDigital: "Business Digital?",
+    helpYouBuild: "Let Us Help You Build a Winning Strategy.",
+    startConsultation: "Start Your Consultation Today!"
+  },
+  id: {
+    readyToTake: "Siap Membawa",
+    businessDigital: "Bisnis Anda ke Digital?",
+    helpYouBuild: "Biarkan Kami Membantu Anda Membangun Strategi yang Menang.",
+    startConsultation: "Mulai Konsultasi Anda Hari Ini!"
+  }
+};
 
 const CTA = () => {
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+
   return (
     <section className="py-20 bg-gray-50 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,11 +54,11 @@ const CTA = () => {
           >
             <div>
               <h2 className="text-4xl md:text-5xl font-bold leading-tight text-gray-900 mb-4">
-                Ready to Take Your <br />
-                <span className="text-blue-600">Business Digital?</span>
+                {t.readyToTake} <br />
+                <span className="text-blue-600">{t.businessDigital}</span>
               </h2>
               <p className="text-gray-600 text-lg">
-                Let Us Help You Build a Winning Strategy.
+                {t.helpYouBuild}
               </p>
             </div>
 
@@ -47,7 +67,7 @@ const CTA = () => {
               whileTap={{ scale: 0.98 }} 
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300"
             >
-              Start Your Consultation Today!
+              {t.startConsultation}
             </motion.button>
           </motion.div>
         </div>

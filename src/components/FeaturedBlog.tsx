@@ -5,8 +5,76 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getAllBlogPosts, getFeaturedBlogPosts, isContentfulConfigured, BlogPost } from '../../lib/contentful';
+import { useI18n } from './I18nProvider';
+
+// Direct translation object - no external JSON needed
+const translations = {
+  en: {
+    sectionTitle: "Latest Insights",
+    mainHeading: "From Our",
+    blogText: "Blog",
+    subtitle: "Stay updated with the latest trends, insights, and innovations in technology and business",
+    demoMode: "Demo Mode:",
+    demoDescription: "Connect to Contentful CMS to display real blog posts.",
+    visitBlog: "Visit full blog page →",
+    loadingText: "Loading featured posts...",
+    errorTitle: "Unable to load blog posts",
+    errorDescription: "Please check your Contentful configuration or try again later.",
+    viewAllArticles: "View All Articles",
+    samplePosts: {
+      post1: {
+        title: "The Future of Digital Transformation in Indonesian Business",
+        excerpt: "Exploring how Indonesian businesses are adapting to the digital age and the key strategies driving successful digital transformation initiatives.",
+        category: "Business"
+      },
+      post2: {
+        title: "AI and Machine Learning: Revolutionizing IT Services",
+        excerpt: "Discover how artificial intelligence and machine learning are transforming the IT services landscape and creating new opportunities for businesses.",
+        category: "Technology"
+      },
+      post3: {
+        title: "Building Scalable Web Applications with Modern Technologies",
+        excerpt: "A comprehensive guide to building scalable web applications using the latest technologies and frameworks for optimal performance.",
+        category: "Software Development"
+      }
+    }
+  },
+  id: {
+    sectionTitle: "Wawasan Terbaru",
+    mainHeading: "Dari",
+    blogText: "Blog Kami",
+    subtitle: "Tetap terkini dengan tren, wawasan, dan inovasi terbaru dalam teknologi dan bisnis",
+    demoMode: "Mode Demo:",
+    demoDescription: "Hubungkan ke Contentful CMS untuk menampilkan postingan blog yang sebenarnya.",
+    visitBlog: "Kunjungi halaman blog lengkap →",
+    loadingText: "Memuat postingan unggulan...",
+    errorTitle: "Tidak dapat memuat postingan blog",
+    errorDescription: "Silakan periksa konfigurasi Contentful Anda atau coba lagi nanti.",
+    viewAllArticles: "Lihat Semua Artikel",
+    samplePosts: {
+      post1: {
+        title: "Masa Depan Transformasi Digital dalam Bisnis Indonesia",
+        excerpt: "Menjelajahi bagaimana bisnis Indonesia beradaptasi dengan era digital dan strategi kunci yang mendorong inisiatif transformasi digital yang sukses.",
+        category: "Bisnis"
+      },
+      post2: {
+        title: "AI dan Machine Learning: Merevolusi Layanan IT",
+        excerpt: "Temukan bagaimana kecerdasan buatan dan machine learning mengubah lanskap layanan IT dan menciptakan peluang baru untuk bisnis.",
+        category: "Teknologi"
+      },
+      post3: {
+        title: "Membangun Aplikasi Web Scalable dengan Teknologi Modern",
+        excerpt: "Panduan komprehensif untuk membangun aplikasi web yang scalable menggunakan teknologi dan framework terbaru untuk performa optimal.",
+        category: "Pengembangan Perangkat Lunak"
+      }
+    }
+  }
+};
 
 const FeaturedBlog = () => {
+  const { language } = useI18n();
+  const t = translations[language as keyof typeof translations];
+  
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +114,8 @@ const FeaturedBlog = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    const locale = language === 'id' ? 'id-ID' : 'en-US';
+    return new Date(dateString).toLocaleDateString(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -58,10 +127,10 @@ const FeaturedBlog = () => {
     {
       sys: { id: '1', createdAt: '', updatedAt: '' },
       fields: {
-        title: 'The Future of Digital Transformation in Indonesian Business',
+        title: t.samplePosts.post1.title,
         slug: 'future-digital-transformation-indonesia',
-        excerpt: 'Exploring how Indonesian businesses are adapting to the digital age and the key strategies driving successful digital transformation initiatives.',
-        category: 'Business',
+        excerpt: t.samplePosts.post1.excerpt,
+        category: t.samplePosts.post1.category,
         author: 'GSA Team',
         publishDate: '2024-01-15',
         readTime: 5,
@@ -73,16 +142,16 @@ const FeaturedBlog = () => {
           }
         },
         tags: ['Digital Transformation', 'Indonesia', 'Business Strategy'],
-        content: {} as any
+        content: {} as Record<string, unknown>
       }
     },
     {
       sys: { id: '2', createdAt: '', updatedAt: '' },
       fields: {
-        title: 'AI and Machine Learning: Revolutionizing IT Services',
+        title: t.samplePosts.post2.title,
         slug: 'ai-machine-learning-it-services',
-        excerpt: 'Discover how artificial intelligence and machine learning are transforming the IT services landscape and creating new opportunities for businesses.',
-        category: 'Technology',
+        excerpt: t.samplePosts.post2.excerpt,
+        category: t.samplePosts.post2.category,
         author: 'Tech Team',
         publishDate: '2024-01-10',
         readTime: 7,
@@ -94,16 +163,16 @@ const FeaturedBlog = () => {
           }
         },
         tags: ['AI', 'Machine Learning', 'IT Services'],
-        content: {} as any
+        content: {} as Record<string, unknown>
       }
     },
     {
       sys: { id: '3', createdAt: '', updatedAt: '' },
       fields: {
-        title: 'Building Scalable Web Applications with Modern Technologies',
+        title: t.samplePosts.post3.title,
         slug: 'scalable-web-applications-modern-tech',
-        excerpt: 'A comprehensive guide to building scalable web applications using the latest technologies and frameworks for optimal performance.',
-        category: 'Software Development',
+        excerpt: t.samplePosts.post3.excerpt,
+        category: t.samplePosts.post3.category,
         author: 'Dev Team',
         publishDate: '2024-01-05',
         readTime: 8,
@@ -115,7 +184,7 @@ const FeaturedBlog = () => {
           }
         },
         tags: ['Web Development', 'Scalability', 'Modern Tech'],
-        content: {} as any
+        content: {} as Record<string, unknown>
       }
     }
   ];
@@ -134,12 +203,12 @@ const FeaturedBlog = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <p className="text-blue-600 font-semibold mb-3 text-base">Latest Insights</p>
+          <p className="text-blue-600 font-semibold mb-3 text-base">{t.sectionTitle}</p>
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900">
-            From Our <span className="text-blue-600">Blog</span>
+            {t.mainHeading} <span className="text-blue-600">{t.blogText}</span>
           </h2>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Stay updated with the latest trends, insights, and innovations in technology and business
+            {t.subtitle}
           </p>
         </motion.div>
 
@@ -153,9 +222,9 @@ const FeaturedBlog = () => {
             className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8 text-center"
           >
             <p className="text-blue-800 text-sm">
-              <strong>Demo Mode:</strong> Connect to Contentful CMS to display real blog posts. 
+              <strong>{t.demoMode}</strong> {t.demoDescription}
               <Link href="/blog" className="text-blue-600 hover:text-blue-700 underline ml-1">
-                Visit full blog page →
+                {t.visitBlog}
               </Link>
             </p>
           </motion.div>
@@ -165,7 +234,7 @@ const FeaturedBlog = () => {
         {loading && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600">Loading featured posts...</p>
+            <p className="mt-4 text-gray-600">{t.loadingText}</p>
           </div>
         )}
 
@@ -177,9 +246,9 @@ const FeaturedBlog = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 18.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
             </div>
-            <p className="text-gray-600 mb-4">Unable to load blog posts</p>
+            <p className="text-gray-600 mb-4">{t.errorTitle}</p>
             <p className="text-sm text-gray-500">
-              Please check your Contentful configuration or try again later.
+              {t.errorDescription}
             </p>
           </div>
         )}
@@ -252,7 +321,7 @@ const FeaturedBlog = () => {
                 href="/blog"
                 className="inline-flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full font-semibold text-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl"
               >
-                View All Articles
+                {t.viewAllArticles}
                 <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                 </svg>
