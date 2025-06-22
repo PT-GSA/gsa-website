@@ -72,7 +72,7 @@ export default function BlogPage() {
       {/* Hero Section */}
       <section className="relative w-full h-[420px] flex items-center justify-center overflow-hidden">
         <Image 
-          src="/Blog/Elemen Design Website Company GSA (54).png" 
+                              src="/Blog/Blog/Elemen Design Website Company GSA (54).png" 
           alt="GSA Blog Hero" 
           fill 
           priority 
@@ -88,7 +88,7 @@ export default function BlogPage() {
           </div>
           <div className="hidden md:block w-[320px] h-[320px] relative">
             <Image 
-              src="/Blog/Elemen Design Website Company GSA (54) 3.svg" 
+                                  src="/Blog/Blog/Elemen Design Website Company GSA (54) 3.svg" 
               alt="Blog Illustration" 
               fill 
               className="object-contain" 

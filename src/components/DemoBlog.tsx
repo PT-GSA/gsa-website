@@ -16,7 +16,7 @@ const DemoBlog = () => {
       author: 'GSA Team',
       publishDate: '2024-01-15',
       readTime: 5,
-      featuredImage: '/Blog/Elemen Design Website Company GSA (54).png',
+      featuredImage: '/Blog/Blog/Elemen Design Website Company GSA (54).png',
       tags: ['Digital Transformation', 'Indonesia', 'Business Strategy']
     },
     {
