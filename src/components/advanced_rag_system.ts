@@ -188,46 +188,6 @@ RESPONSE:`;
   }
 }
 
-// Enhanced API route with Vector RAG
-// app/api/gemini-rag/route.ts
-import { NextRequest, NextResponse } from 'next/server';
-import { VectorRAGSystem } from '../../../lib/vectorRAG';
-
-let ragSystem: VectorRAGSystem | null = null;
-
-export async function POST(request: NextRequest) {
-  try {
-    const { message } = await request.json();
-
-    if (!message) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
-    }
-
-    // Initialize RAG system if not already done
-    if (!ragSystem) {
-      ragSystem = new VectorRAGSystem(process.env.GOOGLE_AI_API_KEY!);
-    }
-
-    const response = await ragSystem.generateResponse(message);
-
-    return NextResponse.json({ 
-      response,
-      timestamp: new Date().toISOString(),
-      model: 'gemini-pro-rag'
-    });
-
-  } catch (error) {
-    console.error('RAG API Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to process your request. Please try again.' },
-      { status: 500 }
-    );
-  }
-}
-
 // Usage in the Hero component - update the fetch URL
 // In your Hero component, change the API endpoint:
 // const response = await fetch('/api/gemini-rag', {

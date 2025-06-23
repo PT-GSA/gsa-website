@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -176,13 +176,19 @@ export default function BlogPostPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (slug) {
-      fetchPost();
+  const fetchRelatedPosts = useCallback(async (category: string) => {
+    try {
+      const allPosts = await getAllBlogPosts();
+      const related = allPosts
+        .filter(p => p.fields.category === category && p.sys.id !== post?.sys.id)
+        .slice(0, 3);
+      setRelatedPosts(related);
+    } catch (err) {
+      console.error('Error fetching related posts:', err);
     }
-  }, [slug]);
+  }, [post?.sys.id]);
 
-  const fetchPost = async () => {
+  const fetchPost = useCallback(async () => {
     try {
       const blogPost = await getBlogPostBySlug(slug);
       if (blogPost) {
@@ -197,19 +203,13 @@ export default function BlogPostPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [slug, fetchRelatedPosts]);
 
-  const fetchRelatedPosts = async (category: string) => {
-    try {
-      const allPosts = await getAllBlogPosts();
-      const related = allPosts
-        .filter(p => p.fields.category === category && p.sys.id !== post?.sys.id)
-        .slice(0, 3);
-      setRelatedPosts(related);
-    } catch (err) {
-      console.error('Error fetching related posts:', err);
+  useEffect(() => {
+    if (slug) {
+      fetchPost();
     }
-  };
+  }, [slug, fetchPost]);
 
   const formatDate = (dateString: string) => {
     const locale = language === 'id' ? 'id-ID' : 'en-US';

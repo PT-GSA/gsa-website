@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -134,10 +134,6 @@ export default function BlogPage() {
     fetchPosts();
   }, []);
 
-  useEffect(() => {
-    filterPosts();
-  }, [selectedCategory, posts, sortBy, selectedDate]);
-
   const fetchPosts = async () => {
     try {
       const allPosts = await getAllBlogPosts();
@@ -149,7 +145,7 @@ export default function BlogPage() {
     }
   };
 
-  const filterPosts = async () => {
+  const filterPosts = useCallback(async () => {
     let filtered = posts;
     
     // Filter by category
@@ -186,7 +182,11 @@ export default function BlogPage() {
     }
 
     setFilteredPosts(filtered);
-  };
+  }, [posts, selectedCategory, selectedDate, sortBy]);
+
+  useEffect(() => {
+    filterPosts();
+  }, [selectedCategory, posts, sortBy, selectedDate, filterPosts]);
 
   const formatDate = (dateString: string) => {
     const locale = language === 'id' ? 'id-ID' : 'en-US';

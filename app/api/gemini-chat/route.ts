@@ -34,7 +34,7 @@ const gsaKnowledgeBase = {
 class GSAKnowledgeRetriever {
   searchRelevantInfo(query: string): string {
     const lowerQuery = query.toLowerCase();
-    let relevantInfo: string[] = [];
+    const relevantInfo: string[] = [];
 
     // Company overview queries
     if (this.matchesAny(lowerQuery, ['company', 'about', 'gsa', 'overview', 'who are you', 'what is gsa'])) {

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,10 +28,6 @@ export default function BlogPage() {
     fetchPosts();
   }, []);
 
-  useEffect(() => {
-    filterPosts();
-  }, [selectedCategory, posts]);
-
   const fetchPosts = async () => {
     try {
       const allPosts = await getAllBlogPosts();
@@ -43,7 +39,7 @@ export default function BlogPage() {
     }
   };
 
-  const filterPosts = async () => {
+  const filterPosts = useCallback(async () => {
     if (selectedCategory === 'All') {
       setFilteredPosts(posts);
     } else {
@@ -55,7 +51,11 @@ export default function BlogPage() {
         setFilteredPosts(posts.filter(post => post.fields.category === selectedCategory));
       }
     }
-  };
+  }, [selectedCategory, posts]);
+
+  useEffect(() => {
+    filterPosts();
+  }, [selectedCategory, posts, filterPosts]);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
