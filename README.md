@@ -107,6 +107,8 @@ GSA Website adalah platform digital modern untuk Gemerlang Sejahtera Abadi (GSA)
 - M Syahrul Hidayat (Digital Marketing & Branding)
 - Kevie Hendrix (Project Manager USA)
 - Oliver King-Smith (AI Strategy & Innovation)
+- Berto Matthew (Fullstack Developer)
+
 
 ## 📄 Lisensi
 Lisensi proprietary GSA. Untuk penggunaan bisnis, silakan kontak info@gsa.co.id.
