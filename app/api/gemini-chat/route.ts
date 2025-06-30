@@ -36,6 +36,15 @@ class GSAKnowledgeRetriever {
     const lowerQuery = query.toLowerCase();
     const relevantInfo: string[] = [];
 
+    // Team queries (main team/project team)
+    if (this.matchesAny(lowerQuery, ['tim utama', 'tim proyek', 'key team', 'project team', 'main team'])) {
+      relevantInfo.push('Main GSA Project Team:');
+      relevantInfo.push('1. Boedi Moelya M. Fikih – GSA Project Director (Indonesia)\n   - Professional web developer and SEO expert with extensive experience in building efficient, results-driven digital solutions. Combines strong technical skills with a deep understanding of online strategy to create websites that are visually engaging and performance-optimized.');
+      relevantInfo.push('2. M Syahrul Hidayat – GSA Digital Marketing & Branding Specialist (Indonesia)\n   - Young Innovator & Digitalization Enthusiast with a strong Business Management and IT background. Passionate about modern digital transformation, leveraging technology for innovation, efficiency, and growth to empower businesses and communities.');
+      relevantInfo.push('3. Kevie Hendrix – Representative Project Manager (USA)\n   - Seasoned Project Manager & Business Development Leader with 20+ years of experience in IT solutions, digital transformation, and outsourcing management. Expert in high-value contracts, international partnerships, and vendor negotiations.');
+      relevantInfo.push('4. Oliver King-Smith – AI Strategy & Innovation Specialist Representative (United Kingdom)\n   - Prolific inventor and entrepreneur in sensors, healthcare technology, and AI. Leads smartR AI, developing innovative patents for health tracking, support for vulnerable populations, and resource optimization.');
+    }
+
     // Company overview queries
     if (this.matchesAny(lowerQuery, ['company', 'about', 'gsa', 'overview', 'who are you', 'what is gsa'])) {
       relevantInfo.push(`Company: ${gsaKnowledgeBase.companyOverview.name}`);
@@ -110,9 +119,20 @@ Please provide a helpful response based on GSA's capabilities and services.
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
 
+// Tambahkan fungsi translateText menggunakan Gemini
+async function translateText(text: string, from: string, to: string): Promise<string> {
+  if (from === to) return text;
+  // Gunakan Gemini untuk translate
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+  const prompt = `Translate the following text from ${from} to ${to} (use natural, conversational style):\n\n${text}`;
+  const result = await model.generateContent(prompt);
+  const response = await result.response;
+  return response.text().trim();
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { message } = await request.json();
+    const { message, language = 'en' } = await request.json();
 
     if (!message) {
       return NextResponse.json(
@@ -121,15 +141,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    let userQuestion = message;
+    let userLang = language;
+    if (!['en', 'id', 'ja', 'zh-TW'].includes(userLang)) userLang = 'en';
+
+    // Translate pertanyaan ke Inggris jika perlu
+    if (userLang !== 'en') {
+      userQuestion = await translateText(message, userLang, 'en');
+    }
+
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     const retriever = new GSAKnowledgeRetriever();
-
-    // Get contextual prompt with relevant GSA information
-    const contextualPrompt = retriever.getContextualPrompt(message);
-
+    const contextualPrompt = retriever.getContextualPrompt(userQuestion);
     const result = await model.generateContent(contextualPrompt);
     const response = await result.response;
-    const text = response.text();
+    let text = response.text();
+
+    // Translate jawaban ke bahasa user jika perlu
+    if (userLang !== 'en') {
+      text = await translateText(text, 'en', userLang);
+    }
 
     return NextResponse.json({ 
       response: text,

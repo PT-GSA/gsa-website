@@ -27,6 +27,28 @@ const translations = {
       dedicatedTeam: "Tim khusus dengan 60% Insinyur",
       softwareMastered: "Perangkat lunak yang telah dikuasai"
     }
+  },
+  ja: {
+    trustedBy: "私たちはクライアントとグローバルネットワークパートナーに信頼されています",
+    leadingPartner: "リーディングデジタル戦略パートナー",
+    description: "シームレスなITソリューション、効率的な管理サポート、統合されたバーチャルエコシステム、そして効果的なデジタルマーケティング。",
+    stats: {
+      integratedSoftware: "統合ソフトウェア",
+      globalNetwork: "グローバルネットワーク",
+      dedicatedTeam: "60%がエンジニアの専任チーム",
+      softwareMastered: "習得済みソフトウェア"
+    }
+  },
+  'zh-TW': {
+    trustedBy: "我們受到客戶和全球合作夥伴的信賴",
+    leadingPartner: "領先的數位策略夥伴",
+    description: "無縫的IT解決方案、高效的管理支援、整合虛擬生態系統，以及有影響力的數位行銷。",
+    stats: {
+      integratedSoftware: "整合軟體",
+      globalNetwork: "全球網絡",
+      dedicatedTeam: "60%工程師的專業團隊",
+      softwareMastered: "已精通的軟體"
+    }
   }
 };
 
@@ -89,7 +111,7 @@ const Partners = () => {
             >
               {duplicatedPartners.map((partner, index) => (
                 <motion.div key={`${partner.id}-${index}`} whileHover={{ scale: 1.05 }} className="inline-block flex-shrink-0 w-28 h-20 relative transition-all duration-300">
-                  <Image src={partner.logo} alt={partner.name} fill className="object-contain" sizes="112px" />
+                  <Image src={partner.logo} alt={partner.name} fill className="object-contain" sizes="112px" priority />
                 </motion.div>
               ))}
             </motion.div>
@@ -101,7 +123,7 @@ const Partners = () => {
           {/* World Map */}
           <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="relative">
             <div className="relative h-[600px] rounded-3xl overflow-hidden">
-              <Image src="/Home/Elemen Design Website Company GSA (34).png" alt="World Map" fill className="object-contain p-4" />
+              <Image src="/Home/Elemen Design Website Company GSA (34).png" alt="World Map" fill className="object-contain p-4" priority />
             </div>
           </motion.div>
 
@@ -138,8 +160,8 @@ const Partners = () => {
 
         {/* Team Section with Elemen Design Website Company GSA (38).png */}
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} viewport={{ once: true }} className="relative">
-          <div className="relative h-[500px] w-full rounded-3xl overflow-hidden bg-gradient-to-br from-gray-50 to-blue-50">
-            <Image src="/Home/Elemen Design Website Company GSA (38).png" alt="GSA Team" fill className="object-cover" />
+          <div className="relative h-40 md:h-[500px] w-full rounded-3xl overflow-hidden bg-gradient-to-br from-gray-50 to-blue-50">
+            <Image src="/Home/Elemen Design Website Company GSA (38).png" alt="GSA Team" fill className="object-cover" priority />
           </div>
         </motion.div>
       </div>

@@ -174,13 +174,13 @@ export default function ServicesPage() {
 
       {/* Best Solution Section */}
       <section className="bg-gradient-to-r from-blue-50 to-green-50 py-12">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4">
           <h2 className="text-center text-2xl md:text-3xl font-bold mb-8">
             We are the best solution for all your <span className="text-blue-600">IT needs!</span>
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {solutionCards.map((card, i) => (
-              <div key={i} className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center">
+              <div key={i} className="bg-white rounded-2xl shadow-lg p-4 md:p-6 flex flex-col items-center">
                 <Image src={card.image} alt={card.title} width={64} height={64} className="mb-4" />
                 <div className="font-bold text-lg mb-2 text-center">{card.title}</div>
                 <ul className="text-xs text-gray-600 list-disc list-inside text-left">
@@ -196,9 +196,9 @@ export default function ServicesPage() {
 
       {/* Software Skills */}
       <section className="bg-white py-8">
-        <div className="max-w-6xl mx-auto px-4">
+        <div className="max-w-6xl mx-auto px-2 sm:px-4">
           <h3 className="text-center text-xl font-semibold mb-4 text-gray-700">Our Software Skills</h3>
-          <div className="flex flex-wrap justify-center items-center gap-4">
+          <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4">
             {softwareLogos.map((logo, i) => (
               <Image key={i} src={logo} alt={`Logo ${i + 60}`} width={40} height={40} className="object-contain" />
             ))}
@@ -208,13 +208,13 @@ export default function ServicesPage() {
 
       {/* Professional Services */}
       <section className="bg-gradient-to-br from-blue-100 to-green-100 py-12">
-        <div className="max-w-7xl mx-auto px-4">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4">
           <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
             Our <span className="text-blue-600">Professional</span> Services
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
             {serviceCards.map((card, i) => (
-              <div key={i} className="bg-white rounded-2xl shadow-xl p-6 flex flex-col h-full">
+              <div key={i} className="bg-white rounded-2xl shadow-xl p-4 md:p-6 flex flex-col h-full">
                 <Image src={card.image} alt={card.title} width={56} height={56} className="mb-4" />
                 <div className="font-bold text-lg mb-2">{card.title}</div>
                 <div className="text-gray-600 text-sm mb-4 flex-1">{card.desc}</div>

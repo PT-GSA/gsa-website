@@ -9,6 +9,12 @@ const resources = {
   id: {
     common: {},
   },
+  ja: {
+    common: {},
+  },
+  'zh-TW': {
+    common: {},
+  },
 };
 
 i18next

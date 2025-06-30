@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useI18n } from '../../src/components/I18nProvider';
+import Head from 'next/head';
 
 // Direct translation object - no external JSON needed
 const translations = {
@@ -386,21 +387,19 @@ function TeamCarousel() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="flex items-center justify-center gap-4 py-8">
-        <button onClick={prev} className="group w-16 h-16 bg-white hover:bg-blue-600 border-2 border-blue-200 hover:border-blue-600 rounded-full transition-all duration-300 flex-shrink-0 flex items-center justify-center shadow-lg hover:shadow-xl">
+      <div className="flex items-center justify-center gap-4 py-8 flex-wrap">
+        <button onClick={prev} className="group w-10 h-10 md:w-16 md:h-16 bg-white hover:bg-blue-600 border-2 border-blue-200 hover:border-blue-600 rounded-full transition-all duration-300 flex-shrink-0 flex items-center justify-center shadow-lg hover:shadow-xl">
           <svg className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-
-        <motion.div key={index} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }} className="bg-gradient-to-br from-purple-100 via-blue-100 to-green-100 rounded-3xl shadow-2xl border border-gray-200 p-1 max-w-5xl w-full">
-          <div className="bg-white rounded-3xl p-8 h-full">
-            <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
+        <motion.div key={index} initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }} className="bg-gradient-to-br from-purple-100 via-blue-100 to-green-100 rounded-3xl shadow-2xl border border-gray-200 p-1 max-w-full w-full md:max-w-5xl">
+          <div className="bg-white rounded-3xl p-4 md:p-8 h-full">
+            <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 md:gap-8">
               {/* Profile Image */}
-              <div className="relative w-64 h-80 rounded-3xl overflow-hidden flex-shrink-0">
+              <div className="relative w-full max-w-xs h-60 md:w-64 md:h-80 rounded-3xl overflow-hidden flex-shrink-0">
                 <Image src={profile.image} alt={profile.name} fill className="object-contain" />
               </div>
-
               {/* Profile Info */}
               <div className="flex-1 space-y-6">
                 {/* Country & Flag */}
@@ -408,7 +407,6 @@ function TeamCarousel() {
                   <span className="text-2xl">{getCountryFlag(profile.country)}</span>
                   <span className="text-gray-600 font-medium">{profile.country}</span>
                 </div>
-
                 {/* Name */}
                 <div>
                   <h3 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
@@ -420,12 +418,10 @@ function TeamCarousel() {
                   </h3>
                   <p className="text-lg text-gray-600 font-medium">{translatedProfile.title}</p>
                 </div>
-
                 {/* Description */}
                 <div className="space-y-4">
                   <p className="text-gray-700 leading-relaxed text-base">{translatedProfile.description}</p>
                 </div>
-
                 {/* Skills */}
                 <div>
                   <h4 className="font-bold text-gray-800 mb-4 text-lg">{t.teamProfiles.keySkills}</h4>
@@ -442,14 +438,12 @@ function TeamCarousel() {
             </div>
           </div>
         </motion.div>
-
-        <button onClick={next} className="group w-16 h-16 bg-white hover:bg-blue-600 border-2 border-blue-200 hover:border-blue-600 rounded-full transition-all duration-300 flex-shrink-0 flex items-center justify-center shadow-lg hover:shadow-xl">
+        <button onClick={next} className="group w-10 h-10 md:w-16 md:h-16 bg-white hover:bg-blue-600 border-2 border-blue-200 hover:border-blue-600 rounded-full transition-all duration-300 flex-shrink-0 flex items-center justify-center shadow-lg hover:shadow-xl">
           <svg className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
       </div>
-
       {/* Pagination dots */}
       <div className="flex justify-center gap-3 mt-8">
         {teamProfiles.map((_, i) => (
@@ -465,181 +459,218 @@ export default function ServicesPage() {
   const t = translations[language as keyof typeof translations];
 
   return (
-    <div className="bg-white min-h-screen flex flex-col">
-      <Navbar />
+    <>
+      <Head>
+        <title>{t.pageTitle} | GSA</title>
+        <meta name="description" content={t.pageSubtitle} />
+        <meta property="og:title" content={`${t.pageTitle} | GSA`} />
+        <meta property="og:description" content={t.pageSubtitle} />
+        <meta property="og:image" content="https://gsagroup.id/services/42.png" />
+        <meta property="og:url" content="https://gsagroup.id/services" />
+        <link rel="canonical" href="https://gsagroup.id/services" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "GSA",
+          "url": "https://gsagroup.id/services",
+          "logo": "https://gsagroup.id/services/42.png",
+          "description": t.pageSubtitle
+        }) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://gsagroup.id/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": t.pageTitle,
+              "item": "https://gsagroup.id/services"
+            }
+          ]
+        }) }} />
+      </Head>
+      <div className="bg-white min-h-screen flex flex-col">
+        <Navbar />
 
-      {/* Hero Section */}
-      <section className="relative w-full bg-gradient-to-r from-purple-500 via-blue-500 to-teal-400 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 pt-24 pb-16 md:pt-32 md:pb-20">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            {/* Left side content */}
-            <div className="text-center md:text-left text-white max-w-xl mb-8 md:mb-0">
-              <div className="text-sm mb-4 opacity-90">{t.breadcrumb}</div>
-              <h1 className="text-5xl md:text-6xl font-bold mb-4">{t.pageTitle}</h1>
-              <p className="text-xl opacity-90">{t.pageSubtitle}</p>
+        {/* Hero Section */}
+        <section className="relative w-full bg-gradient-to-r from-purple-500 via-blue-500 to-teal-400 overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 pt-24 pb-16 md:pt-32 md:pb-20">
+            <div className="flex flex-col md:flex-row items-center justify-between">
+              {/* Left side content */}
+              <div className="text-center md:text-left text-white max-w-xl mb-8 md:mb-0">
+                <div className="text-sm mb-4 opacity-90">{t.breadcrumb}</div>
+                <h1 className="text-5xl md:text-6xl font-bold mb-4">{t.pageTitle}</h1>
+                <p className="text-xl opacity-90">{t.pageSubtitle}</p>
+              </div>
+              
+              {/* Right side robot illustration */}
+              <div className="w-full max-w-xs h-60 md:w-96 md:h-96 md:max-w-[400px] relative flex-shrink-0">
+                <Image 
+                  src="/Home/Elemen Design Website Company GSA (44) 1.svg" 
+                  alt="GSA Robot" 
+                  fill 
+                  className="object-contain" 
+                  priority
+                />
+              </div>
             </div>
-            
-            {/* Right side robot illustration */}
-            <div className="w-96 h-96 md:w-[400px] md:h-[400px] relative flex-shrink-0">
-              <Image 
-                src="/Home/Elemen Design Website Company GSA (44) 1.svg" 
-                alt="GSA Robot" 
-                fill 
-                className="object-contain" 
-                priority
-              />
+          </div>
+        </section>
+
+        {/* IT Outsourcing Section */}
+        <section className="bg-gradient-to-b from-gray-50 to-white py-20">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="inline-block bg-blue-100 text-blue-600 font-semibold px-4 py-2 rounded-full text-sm mb-4">{t.itOutsourcing.badge}</div>
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">{t.itOutsourcing.title}</h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">{t.itOutsourcing.subtitle}</p>
             </div>
+            <TeamCarousel />
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* IT Outsourcing Section */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-blue-100 text-blue-600 font-semibold px-4 py-2 rounded-full text-sm mb-4">{t.itOutsourcing.badge}</div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">{t.itOutsourcing.title}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">{t.itOutsourcing.subtitle}</p>
-          </div>
-          <TeamCarousel />
-        </div>
-      </section>
+        {/* Best Solution Section */}
+        <section className="bg-blue-50 py-20">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
+                {t.bestSolution.title}
+                <br />
+                <span className="text-blue-600">{t.bestSolution.titleHighlight}</span>
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.bestSolution.subtitle}</p>
+            </div>
 
-      {/* Best Solution Section */}
-      <section className="bg-blue-50 py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
-              {t.bestSolution.title}
-              <br />
-              <span className="text-blue-600">{t.bestSolution.titleHighlight}</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.bestSolution.subtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {solutionCards.map((card, i) => (
-              <motion.div key={i} className="bg-white rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 p-8 flex flex-col items-center transition-all duration-300 group" whileHover={{ y: -8 }}>
-                <div className="w-40 h-40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Image src={card.image} alt={card.title} width={120} height={120} className="object-contain" />
-                </div>
-                <h3 className="font-bold text-xl mb-4 text-center text-gray-800">{t.solutionCards[i].title}</h3>
-                <ul className="text-sm space-y-2 w-full text-gray-600">
-                  {t.solutionCards[i].items.map((item) => (
-                    <li key={item} className="flex items-start">
-                      <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                      <span className="text-left">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Software Skills */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h3 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{t.softwareSkills.title}</h3>
-            <p className="text-lg text-gray-600">{t.softwareSkills.subtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-0 items-center">
-            {softwareLogos.map((logo, i) => (
-              <motion.div key={i} className="w-32 h-32 flex items-center justify-center transition-all duration-300 group" whileHover={{ scale: 1.1 }}>
-                <Image src={logo} alt={`Technology ${i + 60}`} width={96} height={96} className="object-contain group-hover:scale-110 transition-transform duration-300" />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Professional Services */}
-      <section className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-blue-100 text-blue-600 font-semibold px-4 py-2 rounded-full text-sm mb-4">{t.professionalServices.badge}</div>
-            <h3 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
-              {t.professionalServices.title}
-            </h3>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.professionalServices.subtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {serviceCards.map((card, i) => (
-              <motion.div key={i} className="bg-white rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 p-8 flex flex-col transition-all duration-300 group relative" whileHover={{ y: -5 }}>
-                {/* New Badge */}
-                {card.isNew && (
-                  <div className="absolute top-6 left-6">
-                    <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold">New</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {solutionCards.map((card, i) => (
+                <motion.div key={i} className="bg-white rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 p-8 flex flex-col items-center transition-all duration-300 group" whileHover={{ y: -8 }}>
+                  <div className="w-40 h-40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Image src={card.image} alt={card.title} width={120} height={120} className="object-contain" />
                   </div>
-                )}
-
-                {/* Title */}
-                <div className="mt-8 mb-6">
-                  <h4 className="font-bold text-2xl text-gray-800">{t.serviceCards[i].title}</h4>
-                </div>
-
-                {/* Features List */}
-                <div className="mb-8 flex-1">
-                  <ul className="space-y-3">
-                    {t.serviceCards[i].features.map((feature) => (
-                      <li key={feature} className="flex items-start text-gray-700">
-                        <span className="w-2 h-2 bg-gray-800 rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                        <span className="text-sm">{feature}</span>
+                  <h3 className="font-bold text-xl mb-4 text-center text-gray-800">{t.solutionCards[i].title}</h3>
+                  <ul className="text-sm space-y-2 w-full text-gray-600">
+                    {t.solutionCards[i].items.map((item) => (
+                      <li key={item} className="flex items-start">
+                        <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                        <span className="text-left">{item}</span>
                       </li>
                     ))}
                   </ul>
-                </div>
-
-                {/* Price Section */}
-                <div className="mb-6">
-                  <div className="text-sm text-gray-500 mb-2">{t.professionalServices.budgetFrom}</div>
-                  <div className="text-3xl font-bold text-gray-800">${card.price}</div>
-                </div>
-
-                {/* Buttons */}
-                <div className="flex items-center gap-3">
-                  <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-2xl transition-all duration-200 text-center">
-                    {t.professionalServices.buyNow}
-                  </a>
-
-                  {/* Cart Icon */}
-                  <button className="w-12 h-12 bg-purple-100 hover:bg-purple-200 rounded-2xl flex items-center justify-center transition-all duration-200 group">
-                    <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z" />
-                      <path d="M9 8V17H11V8H9ZM13 8V17H15V8H13Z" />
-                    </svg>
-                  </button>
-
-                  {/* Heart Icon */}
-                  <button className="w-12 h-12 bg-purple-100 hover:bg-purple-200 rounded-2xl flex items-center justify-center transition-all duration-200 group">
-                    <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" />
-                    </svg>
-                  </button>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact Section */}
-      <section className="bg-gray-100 py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h4 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800">
-            {t.contact.title}
-          </h4>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-12 rounded-full text-lg transition-all duration-200">
-            {t.contact.button}
-          </button>
-        </div>
-      </section>
+        {/* Software Skills */}
+        <section className="bg-gradient-to-b from-gray-50 to-white py-20">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center mb-16">
+              <h3 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">{t.softwareSkills.title}</h3>
+              <p className="text-lg text-gray-600">{t.softwareSkills.subtitle}</p>
+            </div>
 
-      <Footer />
-    </div>
+            <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-0 items-center">
+              {softwareLogos.map((logo, i) => (
+                <motion.div key={i} className="w-full max-w-xs h-20 flex items-center justify-center transition-all duration-300 group" whileHover={{ scale: 1.1 }}>
+                  <Image src={logo} alt={`Technology ${i + 60}`} width={96} height={96} className="object-contain group-hover:scale-110 transition-transform duration-300" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Professional Services */}
+        <section className="bg-white py-20">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="text-center mb-16">
+              <div className="inline-block bg-blue-100 text-blue-600 font-semibold px-4 py-2 rounded-full text-sm mb-4">{t.professionalServices.badge}</div>
+              <h3 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
+                {t.professionalServices.title}
+              </h3>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">{t.professionalServices.subtitle}</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {serviceCards.map((card, i) => (
+                <motion.div key={i} className="bg-white rounded-3xl shadow-lg hover:shadow-2xl border border-gray-100 p-8 flex flex-col transition-all duration-300 group relative" whileHover={{ y: -5 }}>
+                  {/* New Badge */}
+                  {card.isNew && (
+                    <div className="absolute top-6 left-6">
+                      <span className="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-semibold">New</span>
+                    </div>
+                  )}
+
+                  {/* Title */}
+                  <div className="mt-8 mb-6">
+                    <h4 className="font-bold text-2xl text-gray-800">{t.serviceCards[i].title}</h4>
+                  </div>
+
+                  {/* Features List */}
+                  <div className="mb-8 flex-1">
+                    <ul className="space-y-3">
+                      {t.serviceCards[i].features.map((feature) => (
+                        <li key={feature} className="flex items-start text-gray-700">
+                          <span className="w-2 h-2 bg-gray-800 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                          <span className="text-sm">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Price Section */}
+                  <div className="mb-6">
+                    <div className="text-sm text-gray-500 mb-2">{t.professionalServices.budgetFrom}</div>
+                    <div className="text-3xl font-bold text-gray-800">${card.price}</div>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex items-center gap-3">
+                    <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-2xl transition-all duration-200 text-center">
+                      {t.professionalServices.buyNow}
+                    </a>
+
+                    {/* Cart Icon */}
+                    <button className="w-12 h-12 bg-purple-100 hover:bg-purple-200 rounded-2xl flex items-center justify-center transition-all duration-200 group">
+                      <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z" />
+                        <path d="M9 8V17H11V8H9ZM13 8V17H15V8H13Z" />
+                      </svg>
+                    </button>
+
+                    {/* Heart Icon */}
+                    <button className="w-12 h-12 bg-purple-100 hover:bg-purple-200 rounded-2xl flex items-center justify-center transition-all duration-200 group">
+                      <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" />
+                      </svg>
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section className="bg-gray-100 py-16">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h4 className="text-3xl md:text-4xl font-bold mb-8 text-gray-800">
+              {t.contact.title}
+            </h4>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-12 rounded-full text-lg transition-all duration-200">
+              {t.contact.button}
+            </button>
+          </div>
+        </section>
+
+        <Footer />
+      </div>
+    </>
   );
 }

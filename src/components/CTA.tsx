@@ -17,6 +17,18 @@ const translations = {
     businessDigital: "Bisnis Anda ke Digital?",
     helpYouBuild: "Biarkan Kami Membantu Anda Membangun Strategi yang Menang.",
     startConsultation: "Mulai Konsultasi Anda Hari Ini!"
+  },
+  ja: {
+    readyToTake: "ビジネスを",
+    businessDigital: "デジタル化しませんか？",
+    helpYouBuild: "勝つための戦略作りをお手伝いします。",
+    startConsultation: "今すぐご相談を始めましょう！"
+  },
+  'zh-TW': {
+    readyToTake: "準備好讓您的",
+    businessDigital: "企業數位化了嗎？",
+    helpYouBuild: "讓我們幫助您制定成功策略。",
+    startConsultation: "立即開始諮詢！"
   }
 };
 

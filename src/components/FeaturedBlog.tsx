@@ -68,6 +68,66 @@ const translations = {
         category: "Pengembangan Perangkat Lunak"
       }
     }
+  },
+  ja: {
+    sectionTitle: "最新の洞察",
+    mainHeading: "私たちの",
+    blogText: "ブログから",
+    subtitle: "テクノロジーとビジネスの最新トレンド、洞察、イノベーションをチェックしましょう",
+    demoMode: "デモモード:",
+    demoDescription: "本物のブログ投稿を表示するにはContentful CMSに接続してください。",
+    visitBlog: "ブログページを見る →",
+    loadingText: "注目記事を読み込み中...",
+    errorTitle: "ブログ投稿を読み込めません",
+    errorDescription: "Contentfulの設定を確認するか、後でもう一度お試しください。",
+    viewAllArticles: "すべての記事を見る",
+    samplePosts: {
+      post1: {
+        title: "インドネシアビジネスのデジタルトランスフォーメーションの未来",
+        excerpt: "インドネシアの企業がデジタル時代にどのように適応しているか、成功するデジタルトランスフォーメーションの鍵となる戦略を探ります。",
+        category: "ビジネス"
+      },
+      post2: {
+        title: "AIと機械学習：ITサービスの革命",
+        excerpt: "人工知能と機械学習がITサービスの分野をどのように変革し、新たなビジネスチャンスを生み出しているかを発見しましょう。",
+        category: "テクノロジー"
+      },
+      post3: {
+        title: "最新技術でスケーラブルなWebアプリを構築する",
+        excerpt: "最新の技術とフレームワークを使ってスケーラブルなWebアプリを構築するための包括的なガイド。",
+        category: "ソフトウェア開発"
+      }
+    }
+  },
+  'zh-TW': {
+    sectionTitle: "最新洞察",
+    mainHeading: "來自我們的",
+    blogText: "部落格",
+    subtitle: "隨時掌握科技與商業的最新趨勢、洞察與創新",
+    demoMode: "演示模式:",
+    demoDescription: "連接Contentful CMS以顯示真實的部落格文章。",
+    visitBlog: "前往完整部落格頁面 →",
+    loadingText: "正在載入精選文章...",
+    errorTitle: "無法載入部落格文章",
+    errorDescription: "請檢查您的Contentful設定或稍後再試。",
+    viewAllArticles: "查看所有文章",
+    samplePosts: {
+      post1: {
+        title: "印尼企業數位轉型的未來",
+        excerpt: "探索印尼企業如何適應數位時代，以及推動成功數位轉型的關鍵策略。",
+        category: "商業"
+      },
+      post2: {
+        title: "AI與機器學習：革新IT服務",
+        excerpt: "發現人工智慧與機器學習如何改變IT服務領域，並為企業創造新機會。",
+        category: "科技"
+      },
+      post3: {
+        title: "用現代技術打造可擴展的Web應用",
+        excerpt: "使用最新技術和框架打造可擴展Web應用的完整指南。",
+        category: "軟體開發"
+      }
+    }
   }
 };
 

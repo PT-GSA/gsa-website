@@ -1,0 +1,16 @@
+{
+  "name": "GSA - Digital Strategic Partner",
+  "short_name": "GSA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "description": "Gemerlang Sejahtera Abadi - Your Digital Strategic Partner. Web, AI, Software, Digital Marketing terbaik di Indonesia.",
+  "icons": [
+    {
+      "src": "/gsa.png",
+      "sizes": "32x32 48x48 64x64 128x128 256x256",
+      "type": "image/x-icon"
+    }
+  ]
+} 

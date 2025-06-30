@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Image from 'next/image';
 import { useI18n } from './I18nProvider';
+import { motion } from 'framer-motion';
 
 // Direct translation object - no external JSON needed
 const translations = {
@@ -21,8 +21,29 @@ const translations = {
     services: "Layanan",
     blog: "Blog",
     contact: "Kontak"
+  },
+  ja: {
+    home: "ホーム",
+    about: "私たちについて",
+    services: "サービス",
+    blog: "ブログ",
+    contact: "お問い合わせ"
+  },
+  'zh-TW': {
+    home: "首頁",
+    about: "關於我們",
+    services: "服務",
+    blog: "部落格",
+    contact: "聯絡我們"
   }
 };
+
+const languageOptions = [
+  { code: 'en', label: 'EN' },
+  { code: 'id', label: 'ID' },
+  { code: 'ja', label: '日本語' },
+  { code: 'zh-TW', label: '繁體中文' }
+];
 
 const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
   return (
@@ -37,21 +58,16 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { language, changeLanguage } = useI18n();
-  const t = translations[language as keyof typeof translations];
-
-  const toggleLanguage = () => {
-    const newLanguage = language === 'en' ? 'id' : 'en';
-    changeLanguage(newLanguage);
-  };
+  const t = translations[language as keyof typeof translations] || translations['en'];
 
   return (
-    <nav className="fixed w-full z-50 bg-gradient-to-r from-purple-500 via-blue-500 to-green-500 shadow-lg">
+    <nav className="sticky top-0 w-full z-50 bg-gradient-to-r from-purple-500 via-blue-500 to-green-500 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/">
-              <motion.div className="w-28 h-16 relative cursor-pointer" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.div className="w-20 h-10 md:w-28 md:h-16 relative cursor-pointer" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Image src="/Home/Elemen Design Website Company GSA (45) 1.svg" alt="GSA Logo" fill className="object-contain" />
               </motion.div>
             </Link>
@@ -66,29 +82,17 @@ const Navbar = () => {
             <NavLink href="/contact">{t.contact}</NavLink>
           </div>
 
-          {/* Language Toggle */}
+          {/* Language Dropdown */}
           <div className="flex items-center space-x-4">
-            <motion.div onClick={toggleLanguage} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="relative bg-white/15 backdrop-blur-md rounded-full border border-white/20 cursor-pointer hover:bg-white/25 transition-all duration-300 w-16 h-8 flex items-center">
-              {/* White background slider */}
-              <motion.div
-                className="absolute bg-white rounded-full shadow-lg"
-                animate={{
-                  x: language === 'id' ? 2 : 34,
-                }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                style={{
-                  width: '26px',
-                  height: '26px',
-                  top: '1px',
-                }}
-              />
-
-              {/* Language text */}
-              <div className="flex items-center justify-between w-full px-2 relative z-10">
-                <span className={`text-xs font-medium transition-colors duration-300 ${language === 'id' ? 'text-gray-700' : 'text-white'}`}>ID</span>
-                <span className={`text-xs font-medium transition-colors duration-300 ${language === 'en' ? 'text-gray-700' : 'text-white'}`}>EN</span>
-              </div>
-            </motion.div>
+            <select
+              value={language}
+              onChange={e => changeLanguage(e.target.value)}
+              className="bg-white/15 backdrop-blur-md rounded-full border border-white/20 cursor-pointer hover:bg-white/25 transition-all duration-300 px-3 py-1 text-xs font-medium text-gray-900"
+            >
+              {languageOptions.map(opt => (
+                <option key={opt.code} value={opt.code}>{opt.label}</option>
+              ))}
+            </select>
 
             {/* Mobile menu button */}
             <div className="md:hidden">

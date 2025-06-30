@@ -25,19 +25,22 @@ interface I18nProviderProps {
 
 export const I18nProvider = ({ children }: I18nProviderProps) => {
   const { i18n } = useTranslation();
-  const [language, setLanguage] = useState('en');
+  const [language, setLanguage] = useState('en'); // Always 'en' on SSR, will sync on client
 
   useEffect(() => {
-    // Load saved language from localStorage
-    const savedLanguage = localStorage.getItem('language') || 'en';
-    setLanguage(savedLanguage);
-    i18n.changeLanguage(savedLanguage);
+    // Only run on client
+    const savedLanguage = typeof window !== 'undefined' ? localStorage.getItem('language') : null;
+    const lang = savedLanguage || 'en';
+    setLanguage(lang);
+    i18n.changeLanguage(lang);
   }, [i18n]);
 
   const changeLanguage = (lang: string) => {
     setLanguage(lang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('language', lang);
+    }
     i18n.changeLanguage(lang);
-    localStorage.setItem('language', lang);
   };
 
   return (

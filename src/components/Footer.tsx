@@ -1,7 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
   return (
@@ -17,7 +17,7 @@ const Footer = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <p className="text-white/90 leading-relaxed">
-                  Kompetisi Strategic Square, Jl. Jenderal Sudirman,
+                  Sampoerna Strategic Square, Jl. Jenderal Sudirman,
                   <br />
                   Karet Semanggi, Setiabudi, Jakarta Selatan,
                   <br />
@@ -50,7 +50,7 @@ const Footer = () => {
               </div>
               <div className="flex items-center space-x-3">
                 <svg className="w-5 h-5 text-white/80" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.404-5.965 1.404-5.965s-.359-.219-.359-1.219c0-1.14.661-1.989 1.485-1.989.699 0 1.037.525 1.037 1.155 0 .703-.448 1.754-.679 2.728-.193.818.409 1.484 1.212 1.484 1.455 0 2.436-1.871 2.436-4.085 0-1.686-1.133-2.948-3.196-2.948-2.312 0-3.746 1.687-3.746 3.569 0 .647.19 1.104.484 1.454.132.156.151.219.103.399-.035.132-.115.448-.149.574-.047.179-.173.217-.403.13-1.122-.466-1.657-1.719-1.657-3.13 0-2.308 1.923-5.075 5.759-5.075 3.074 0 5.097 2.209 5.097 4.595 0 3.146-1.75 5.505-4.338 5.505-.872 0-1.69-.465-1.971-.999 0 0-.451 1.777-.546 2.157-.213.833-.675 1.537-1.124 2.144C9.607 23.812 10.8 24 12.017 24c6.624 0 11.99-5.367 11.99-11.987C24.007 5.367 18.641.001 12.017.001z" />
+                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.041-3.439.219-.937 1.404-5.965 1.404-5.965s-.359-.219-.359-1.219c0-1.14.661-1.989 1.485-1.989.699 0 1.037.525 1.037 1.155 0 .703-.448 1.754-.679 2.728-.193.818.409 1.484 1.212 1.484 1.455 0 2.436-1.871 2.436-4.085 0-1.686-1.133-2.948-3.196-2.948-2.312 0-3.746 1.687-3.746 3.569 0 .647.19 1.104.484 1.454.132.156.151.219.103.399-.035.132-.115.448-.149.574-.047.179-.173.217-.403.13-1.122-.466-1.657-1.719-1.719-3.13 0-2.308 1.923-5.075 5.759-5.075 3.074 0 5.097 2.209 5.097 4.595 0 3.146-1.75 5.505-4.338 5.505-.872 0-1.69-.465-1.971-.999 0 0-.451 1.777-.546 2.157-.213.833-.675 1.537-1.124 2.144C9.607 23.812 10.8 24 12.017 24c6.624 0 11.99-5.367 11.99-11.987C24.007 5.367 18.641.001 12.017.001z" />
                 </svg>
                 <a href="https://instagram.com/gsa.group.id" target="_blank" rel="noopener noreferrer" className="text-white/90 hover:text-white transition-colors duration-300 font-medium">
                   Instagram: @gsa.group.id
@@ -61,7 +61,7 @@ const Footer = () => {
 
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} viewport={{ once: true }} className="flex items-center justify-center md:justify-end">
             <div className="text-center">
-              <div className="w-40 h-20 relative mb-4">
+              <div className="w-24 h-12 md:w-40 md:h-20 relative mb-4 mx-auto">
                 <Image src="/Home/Elemen Design Website Company GSA (45) 1.svg" alt="GSA Logo" fill className="object-contain" />
               </div>
               <p className="text-white/80 text-sm font-medium">Gemerlang Sejahtera Abadi</p>
@@ -72,8 +72,8 @@ const Footer = () => {
 
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-white/70 text-sm">
-              © 2025 Gemerlang Sejahtera Abadi. All rights reserved.
+            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className="text-white/70 text-sm text-center md:text-left">
+              © 2025 Gemerlang Sejahtera Abadi. All rights reserved.<br />
             </motion.p>
 
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} viewport={{ once: true }} className="flex space-x-6">

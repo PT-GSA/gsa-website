@@ -62,9 +62,19 @@ const translations = {
         label: "Address*",
         placeholder: "Address"
       },
-      notes: {
-        label: "Notes*",
-        placeholder: "Notes"
+      service: {
+        label: "Service*",
+        placeholder: "Select a service",
+        options: [
+          "Web Development",
+          "AI Customize",
+          "Software Development",
+          "Digital Marketing",
+          "AR/VR Solutions",
+          "IT Outsourcing",
+          "IT Support & Consulting",
+          "Other"
+        ]
       },
       submit: "Submit"
     }
@@ -122,9 +132,17 @@ const translations = {
         label: "Alamat*",
         placeholder: "Alamat"
       },
-      notes: {
-        label: "Catatan*",
-        placeholder: "Catatan"
+      service: {
+        label: "Layanan*",
+        placeholder: "Pilih layanan",
+        options: [
+          "Pengembangan Perangkat Lunak",
+          "Digital Marketing",
+          "Solusi AR/VR",
+          "IT Outsourcing",
+          "IT Support & Konsultasi",
+          "Lainnya"
+        ]
       },
       submit: "Kirim"
     }
@@ -141,10 +159,10 @@ const ContactPage = () => {
     email: '',
     phoneNumber: '',
     address: '',
-    notes: ''
+    service: ''
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -154,12 +172,21 @@ const ContactPage = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
+    // WhatsApp integration
+    const waNumber = '6287854207963'; // GSA WhatsApp number (remove +)
+    const message =
+      `${t.form.fullName.label} ${formData.fullName}\n` +
+      `${t.form.companyName.label} ${formData.companyName}\n` +
+      `${t.form.email.label} ${formData.email}\n` +
+      `${t.form.phoneNumber.label} ${formData.phoneNumber}\n` +
+      `${t.form.address.label} ${formData.address}\n` +
+      `${t.form.service.label} ${formData.service}`;
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
+    window.open(waUrl, '_blank');
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Navbar />
       
       {/* Hero Section */}
@@ -175,7 +202,7 @@ const ContactPage = () => {
               </div>
 
               {/* Title */}
-              <h1 className="text-6xl font-bold mb-4">
+              <h1 className="text-3xl md:text-6xl font-bold mb-4">
                 {t.hero.title}
               </h1>
 
@@ -187,7 +214,7 @@ const ContactPage = () => {
 
             {/* Robot SVG */}
             <div className="flex-1 flex justify-end">
-              <div className="w-96 h-96 md:w-[400px] md:h-[400px] relative">
+              <div className="w-full max-w-xs h-60 md:w-96 md:h-96 md:max-w-[400px] relative">
                 <Image
                   src="/Contact/Contact/Elemen Design Website Company GSA (55) 3.svg"
                   alt="Contact Robot"
@@ -201,8 +228,8 @@ const ContactPage = () => {
 
         {/* Background decoration */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-1/4 w-40 h-40 md:w-96 md:h-96 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-40 h-40 md:w-96 md:h-96 bg-white/5 rounded-full blur-3xl"></div>
         </div>
       </section>
 
@@ -376,21 +403,24 @@ const ContactPage = () => {
                   />
                 </div>
 
-                {/* Notes */}
+                {/* Service Selection */}
                 <div>
-                  <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-2">
-                    {t.form.notes.label}
+                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">
+                    {t.form.service.label}
                   </label>
-                  <textarea
-                    id="notes"
-                    name="notes"
-                    value={formData.notes}
+                  <select
+                    id="service"
+                    name="service"
+                    value={formData.service}
                     onChange={handleInputChange}
-                    placeholder={t.form.notes.placeholder}
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 bg-white text-gray-700"
                     required
-                  />
+                  >
+                    <option value="" disabled>{t.form.service.placeholder}</option>
+                    {t.form.service.options.map((option: string) => (
+                      <option key={option} value={option}>{option}</option>
+                    ))}
+                  </select>
                 </div>
 
                 {/* Submit Button */}

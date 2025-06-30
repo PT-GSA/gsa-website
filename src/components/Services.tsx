@@ -39,6 +39,40 @@ const translations = {
         description: "Kami menyediakan layanan IT sesuai kebutuhan Anda"
       }
     }
+  },
+  ja: {
+    sectionTitle: "サービス",
+    mainHeading: "あなたが必要なものは",
+    needText: "何ですか？",
+    subtitle: "ご要望に応じてお手伝いします",
+    moreInformation: "詳細情報",
+    services: {
+      itOutsourcing: {
+        title: "ITアウトソーシング",
+        description: "あなたのプロジェクトのためのチームを提供します"
+      },
+      itServices: {
+        title: "ITサービス",
+        description: "ご要望に応じたITサービスを提供します"
+      }
+    }
+  },
+  'zh-TW': {
+    sectionTitle: "我們的服務",
+    mainHeading: "您需要什麼",
+    needText: "？",
+    subtitle: "我們可以根據您的需求提供協助",
+    moreInformation: "更多資訊",
+    services: {
+      itOutsourcing: {
+        title: "IT外包",
+        description: "我們為您的專案提供團隊"
+      },
+      itServices: {
+        title: "IT服務",
+        description: "我們根據您的需求提供IT服務"
+      }
+    }
   }
 };
 
