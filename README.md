@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GSA Website
 
-## Getting Started
+GSA Website adalah platform digital modern untuk Gemerlang Sejahtera Abadi (GSA) sebagai Digital Strategic Partner. Website ini dibangun dengan Next.js, TypeScript, Tailwind CSS, dan terintegrasi dengan Contentful CMS serta AI Chat berbasis Google Gemini. Website ini mendukung multi-bahasa (EN/ID), menampilkan layanan, blog, portofolio, dan kontak profesional.
 
-First, run the development server:
+## ✨ Fitur Utama
+- **Landing Page Interaktif**: Hero, Partners, Services, CTA, dan Demo Blog.
+- **Blog Dinamis**: Konten blog terintegrasi Contentful, kategori, filtering, dan halaman detail.
+- **AI Chat Assistant**: Tanya jawab seputar GSA dengan AI (Google Gemini, RAG, knowledge base).
+- **Layanan GSA**: Showcase layanan IT outsourcing, software, creative, AI, AR/VR, IoT, dsb.
+- **Portofolio & Partners**: Logo, statistik, dan studi kasus klien global.
+- **Multi-bahasa**: Bahasa Indonesia & Inggris (i18n, toggle di navbar).
+- **Form Kontak**: Formulir konsultasi & info kontak lengkap.
+- **Desain Modern**: Tailwind CSS, animasi framer-motion, responsif, dan aksesibel.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Teknologi
+- **Next.js 15** (App Router, SSR, API routes)
+- **TypeScript**
+- **Tailwind CSS**
+- **Framer Motion** (animasi)
+- **Contentful CMS** (blog & konten dinamis)
+- **Google Gemini AI** (AI chat assistant)
+- **i18next, react-i18next** (multi-bahasa)
+- **@heroicons/react** (ikon)
+
+## 📁 Struktur Folder
+```
+├── app/                # Routing utama Next.js (pages, api, layout, globals.css)
+│   ├── about/          # Halaman profil perusahaan
+│   ├── blog/           # Halaman blog & detail
+│   ├── contact/        # Halaman kontak & form
+│   ├── services/       # Halaman layanan
+│   └── api/gemini-chat # API AI Chat
+├── src/
+│   ├── app/            # (duplikat legacy, bisa dihapus jika tidak dipakai)
+│   └── components/     # Komponen UI utama (Hero, Navbar, Footer, Blog, Services, dsb)
+├── lib/                # Integrasi Contentful, i18n, knowledge base
+├── public/             # Asset gambar, logo, svg, dsb
+├── BLOG_SETUP.md       # Panduan setup blog & Contentful
+├── CONTENTFUL_IMPORT_GUIDE.md # Panduan import model Contentful
+├── tailwind.config.js  # Konfigurasi Tailwind
+├── next.config.ts      # Konfigurasi Next.js
+├── package.json        # Dependensi & script
+└── README.md           # Dokumentasi ini
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚡️ Setup & Instalasi
+1. **Clone repo & install dependencies**
+   ```bash
+   git clone <repo-url>
+   cd gsa-website
+   npm install
+   # atau yarn/pnpm/bun
+   ```
+2. **Setup environment**
+   - Copy `.env.local` dan isi dengan kredensial Contentful & Google AI:
+     ```env
+     CONTENTFUL_SPACE_ID=your_space_id
+     CONTENTFUL_ACCESS_TOKEN=your_access_token
+     GOOGLE_AI_API_KEY=your_google_gemini_api_key
+     ```
+3. **Setup Contentful**
+   - Ikuti `CONTENTFUL_IMPORT_GUIDE.md` atau `BLOG_SETUP.md` untuk import model & sample konten.
+   - Pastikan content type `blogPost` sudah ada dan publish beberapa post.
+4. **Jalankan development**
+   ```bash
+   npm run dev
+   # buka http://localhost:3000
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Fitur Blog (Contentful)
+- Blog otomatis menampilkan post dari Contentful.
+- Filtering kategori, halaman detail, featured post.
+- Rich text, gambar, SEO meta, author, tanggal, dsb.
+- Panduan setup lengkap di `BLOG_SETUP.md` & `CONTENTFUL_IMPORT_GUIDE.md`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🤖 AI Chat Assistant
+- Tanya apapun tentang GSA di landing page (Hero section).
+- Menggunakan Google Gemini API + knowledge base GSA (lihat `lib/gsaKnowledgeBase.ts`).
+- Endpoint API: `/api/gemini-chat`.
+- Mendukung Retrieval Augmented Generation (RAG) untuk jawaban kontekstual.
 
-## Learn More
+## 🌐 Multi-bahasa (i18n)
+- Toggle EN/ID di navbar.
+- Implementasi: `lib/i18n.ts`, `src/components/I18nProvider.tsx`.
+- Komponen & halaman mendukung translasi langsung.
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Layanan GSA
+- Halaman layanan: IT Outsourcing, Software, Creative, AI, AR/VR, IoT, dsb.
+- Showcase tim, skills, portofolio, dan studi kasus.
+- Lihat `/services` untuk detail.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📬 Kontak & Konsultasi
+- Form kontak di `/contact`.
+- Info alamat, email, telepon, dan Instagram di footer.
+- Email: info@gsa.co.id
+- Instagram: [@gsa.group.id](https://instagram.com/gsa.group.id)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🏗️ Build & Deployment
+- Build: `npm run build`
+- Start: `npm start`
+- Lint: `npm run lint`
+- Deploy di Vercel, Netlify, atau server Next.js standar.
+- Pastikan environment variable di-setup di platform hosting.
 
-## Deploy on Vercel
+## 👥 Kontributor
+- Boedi Moelya M. Fikih (Project Director)
+- M Syahrul Hidayat (Digital Marketing & Branding)
+- Kevie Hendrix (Project Manager USA)
+- Oliver King-Smith (AI Strategy & Innovation)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 Lisensi
+Lisensi proprietary GSA. Untuk penggunaan bisnis, silakan kontak info@gsa.co.id.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+> Website ini dibangun dengan ❤️ oleh tim GSA. Untuk konsultasi, kerjasama, atau pertanyaan teknis, silakan hubungi kami!
