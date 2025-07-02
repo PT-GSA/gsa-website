@@ -54,7 +54,7 @@ interface ChatMessage {
   id: string;
   type: 'user' | 'ai';
   content: string;
-  timestamp: string; // ISO string
+  timestamp: string; // ISO stringss
 }
 
 const Hero = () => {
